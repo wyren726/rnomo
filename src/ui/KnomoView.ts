@@ -2473,13 +2473,14 @@ export class KnomoView extends ItemView {
 	}
 
 	private renderSidebar(sidebar: HTMLElement): void {
+		const settings = (this.settingsService as SettingsService | undefined)?.getSettings?.();
 		const elements = renderKnomoSidebar(sidebar, {
 			sidebarMinWidth: SIDEBAR_MIN_WIDTH,
 			sidebarMaxWidth: SIDEBAR_MAX_WIDTH,
-			timeBuoyEnabled: this.settingsService.getSettings().timeBuoyEnabled,
-			navOrder: this.settingsService.getSettings().sidebarNavOrder,
-			onNavOrderChanged: order => { void this.settingsService.updateSettings({ sidebarNavOrder: order }); },
-			onTagOrderChanged: order => { void this.settingsService.updateSettings({ sidebarTagOrder: order }); },
+			timeBuoyEnabled: settings?.timeBuoyEnabled,
+			navOrder: settings?.sidebarNavOrder ?? [],
+			onNavOrderChanged: order => { void this.persistSidebarNavOrder(order); },
+			onTagOrderChanged: order => { void this.persistSidebarTagOrder(order); },
 			createHiddenText: (container, id, text) => this.createHiddenText(container, id, text),
 			createIconButton: (container, icon, ariaLabel, cls, action, showTooltip) => {
 				return this.createIconButton(container, icon, ariaLabel, cls, action, showTooltip);
@@ -2504,6 +2505,16 @@ export class KnomoView extends ItemView {
 				this.setSidebarWidth(this.desktopSidebarStateController.getSnapshot().width + 8, true);
 			}
 		});
+	}
+
+	private async persistSidebarNavOrder(order: string[]): Promise<void> {
+		try { await this.settingsService.updateSettings({ sidebarNavOrder: order }); }
+		catch { new Notice(t("error.saveFailed")); }
+	}
+
+	private async persistSidebarTagOrder(order: string[]): Promise<void> {
+		try { await this.settingsService.updateSettings({ sidebarTagOrder: order }); }
+		catch { new Notice(t("error.saveFailed")); }
 	}
 
 	private renderDesktopTopbar(main: HTMLElement): void {
@@ -4095,12 +4106,13 @@ export class KnomoView extends ItemView {
 				this.activeTag = activeTag.name;
 			}
 		}
+		const settings = (this.settingsService as SettingsService | undefined)?.getSettings?.();
 		renderSidebarTags(this.allTagsEl, allTags, {
 			activeTagKey: this.activeTagKey,
 			expandedTagGroups: this.expandedTagGroups,
 			emptyText: t("tags.empty"),
-			tagOrder: this.settingsService.getSettings().sidebarTagOrder,
-			onTagOrderChanged: order => { void this.settingsService.updateSettings({ sidebarTagOrder: order }); },
+			tagOrder: settings?.sidebarTagOrder ?? [],
+			onTagOrderChanged: order => { void this.persistSidebarTagOrder(order); },
 		});
 		if (this.libraryIndexError) this.renderTagIndexFailure();
 		this.sidebarTagRender = { container: this.allTagsEl, key, firstChild: this.allTagsEl.firstChild };
@@ -4300,8 +4312,8 @@ export class KnomoView extends ItemView {
 		};
 		await this.collectionRecordService.update(record, input);
 		const settings = this.settingsService.getSettings();
-		if (!settings.progressMemoEnabled) return;
-		const suffix = settings.progressMemoSuffix.trim();
+		if (settings.progressMemoEnabled === false) return;
+		const suffix = (settings.progressMemoSuffix ?? "").trim();
 		const content = t("collection.progress.memo", {
 			title: record.title,
 			delta: delta > 0 ? "+1" : "-1",

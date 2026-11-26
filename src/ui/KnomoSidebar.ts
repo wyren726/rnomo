@@ -153,8 +153,11 @@ export function renderSidebarTags(container: HTMLElement | null, tags: TagSummar
 		container.createDiv({ cls: "knomo-muted-text", text: options.emptyText });
 		return;
 	}
+	const notifyTagOrder = (): void => {
+		options.onTagOrderChanged?.(Array.from(container.querySelectorAll<HTMLElement>("[data-sort-key]")).map(node => node.getAttribute("data-sort-key") ?? "").filter(Boolean));
+	};
 	for (const tag of orderItems(tree, options.tagOrder, tag => tag.key)) {
-		renderTagTreeNode(container, tag, options, options.onTagOrderChanged, true);
+		renderTagTreeNode(container, tag, options, notifyTagOrder, true);
 	}
 }
 
@@ -181,8 +184,9 @@ function renderSidebarNavButton(container: HTMLElement, item: SidebarNavItem, on
 			"data-nav": item.nav,
 		},
 	});
-	if (onOrderChanged) {
+	if (onOrderChanged && typeof button.addEventListener === "function") {
 		button.draggable = true;
+		registerPointerSort(button, item.nav, onOrderChanged, () => Array.from(button.parentElement?.querySelectorAll<HTMLElement>("[data-nav]") ?? []));
 		button.addEventListener("dragstart", event => {
 			event.dataTransfer?.setData("text/plain", item.nav);
 			button.addClass("is-dragging");
@@ -210,8 +214,9 @@ function renderTagTreeNode(container: HTMLElement, tag: TagTreeNode, options: Re
 	const collapsed = tag.children.length > 0 && !options.expandedTagGroups.has(tag.key);
 	const node = container.createDiv({ cls: collapsed ? "knomo-tag-node is-collapsed" : "knomo-tag-node" });
 	node.setAttr("data-sort-key", tag.key);
-	if (sortable && onOrderChanged) {
+	if (sortable && onOrderChanged && typeof node.addEventListener === "function") {
 		node.draggable = true;
+		registerPointerSort(node, tag.key, onOrderChanged, () => Array.from(node.parentElement?.children ?? []).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement && candidate.hasAttribute("data-sort-key")));
 		node.addEventListener("dragstart", event => {
 			event.dataTransfer?.setData("text/plain", tag.key);
 			node.addClass("is-dragging");
@@ -259,10 +264,67 @@ function renderTagTreeNode(container: HTMLElement, tag: TagTreeNode, options: Re
 	}
 	if (tag.children.length > 0) {
 		const children = node.createDiv({ cls: "knomo-tag-children" });
-		for (const child of tag.children) {
-			renderTagTreeNode(children, child, options);
+		for (const child of orderItems(tag.children, options.tagOrder, child => child.key)) {
+			renderTagTreeNode(children, child, options, onOrderChanged, true);
 		}
 	}
+}
+
+function registerPointerSort(
+	element: HTMLElement,
+	key: string,
+	onOrderChanged: (order: string[]) => void,
+	getSiblings: () => HTMLElement[],
+): void {
+	if (typeof element.addEventListener !== "function") return;
+	let pointerId: number | null = null;
+	let startX = 0;
+	let startY = 0;
+	let moved = false;
+	let suppressClick = false;
+	element.addEventListener("pointerdown", event => {
+		if (event.pointerType !== "touch" && event.pointerType !== "pen") return;
+		if ((event.target as HTMLElement).closest("[data-tag-toggle]")) return;
+		suppressClick = false;
+		pointerId = event.pointerId;
+		startX = event.clientX;
+		startY = event.clientY;
+		moved = false;
+		element.setPointerCapture?.(event.pointerId);
+	});
+	element.addEventListener("pointermove", event => {
+		if (pointerId !== event.pointerId) return;
+		if (!moved && Math.hypot(event.clientX - startX, event.clientY - startY) < 8) return;
+		moved = true;
+		event.preventDefault();
+		const target = element.ownerDocument.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>("[data-nav], [data-sort-key]");
+		const siblings = getSiblings();
+		const destination = target && siblings.includes(target) ? target : null;
+		if (destination === null || destination === element) return;
+		const rect = destination.getBoundingClientRect();
+		const insertBefore = event.clientY < rect.top + rect.height / 2;
+		if (insertBefore) destination.parentElement?.insertBefore(element, destination);
+		else destination.parentElement?.insertBefore(element, destination.nextSibling);
+		element.addClass("is-dragging");
+	});
+	const finish = (event: PointerEvent): void => {
+		if (pointerId !== event.pointerId) return;
+		pointerId = null;
+		element.releasePointerCapture?.(event.pointerId);
+		if (!moved) return;
+		event.preventDefault();
+		suppressClick = true;
+		element.removeClass("is-dragging");
+		onOrderChanged(getSiblings().map(sibling => sibling.getAttribute("data-nav") ?? sibling.getAttribute("data-sort-key") ?? "").filter(Boolean));
+	};
+	element.addEventListener("pointerup", finish);
+	element.addEventListener("pointercancel", finish);
+	element.addEventListener("click", event => {
+		if (!suppressClick) return;
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		suppressClick = false;
+	});
 }
 
 function orderItems<T>(items: readonly T[], order: readonly string[] | undefined, keyOf: (item: T) => string = (item) => {

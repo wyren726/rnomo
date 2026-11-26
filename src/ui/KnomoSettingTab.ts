@@ -252,10 +252,7 @@ export class KnomoSettingTab extends PluginSettingTab {
 			.setDesc(t("settings.insertPosition.desc")));
 		this.renderTimeFormatSetting(new Setting(card).setName(t("settings.timeFormat.name"))
 			.setDesc(t("settings.timeFormat.desc")));
-		this.renderProgressMemoSetting(new Setting(card).setName(t("settings.progressMemo.name"))
-			.setDesc(t("settings.progressMemo.desc")));
-		this.renderProgressMemoSuffixSetting(new Setting(card).setName(t("settings.progressMemo.suffix.name"))
-			.setDesc(t("settings.progressMemo.suffix.desc")));
+		this.addProgressMemoSettings(card);
 		this.renderTimeBuoySetting(new Setting(card).setName(t("settings.timeBuoy.name"))
 			.setDesc(t("settings.timeBuoy.desc")));
 		this.renderToolbarSetting(new Setting(card).setName(t("settings.toolbar.name"))
@@ -483,30 +480,31 @@ export class KnomoSettingTab extends PluginSettingTab {
 		});
 	}
 
-	private renderProgressMemoSetting(setting: Setting): void {
+	private addProgressMemoSettings(parent: HTMLElement): void {
+		const setting = new Setting(parent).setName(t("settings.progressMemo.name"))
+			.setDesc(t("settings.progressMemo.desc"));
 		setting.settingEl.addClass("knomo-settings-toggle-row");
 		setting.addToggle((toggle) => {
-			toggle.setValue(this.settingsService.getSettings().progressMemoEnabled);
+			toggle.setValue(this.settingsService.getSettings().progressMemoEnabled !== false);
 			toggle.onChange(async (value) => {
 				try {
 					await this.settingsService.updateSettings({ progressMemoEnabled: value });
 				} catch {
-					toggle.setValue(this.settingsService.getSettings().progressMemoEnabled);
+					toggle.setValue(this.settingsService.getSettings().progressMemoEnabled !== false);
 					new Notice(t("error.saveFailed"));
 				}
 			});
 		});
-	}
-
-	private renderProgressMemoSuffixSetting(setting: Setting): void {
-		setting.addText((text) => {
-			text.setValue(this.settingsService.getSettings().progressMemoSuffix);
+		const suffixSetting = new Setting(parent).setName(t("settings.progressMemo.suffix.name"))
+			.setDesc(t("settings.progressMemo.suffix.desc"));
+		suffixSetting.addText((text) => {
+			text.setValue(this.settingsService.getSettings().progressMemoSuffix ?? "");
 			text.setPlaceholder("Keep going!");
 			text.onChange(async (value) => {
 				try {
 					await this.settingsService.updateSettings({ progressMemoSuffix: value });
 				} catch {
-					text.setValue(this.settingsService.getSettings().progressMemoSuffix);
+					text.setValue(this.settingsService.getSettings().progressMemoSuffix ?? "");
 					new Notice(t("error.saveFailed"));
 				}
 			});

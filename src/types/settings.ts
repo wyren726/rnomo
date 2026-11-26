@@ -13,8 +13,8 @@ export interface KnomoSettings {
 	dailyHeading: string;
 	dailyInsertPosition: DailyInsertPosition;
 	memoTimeFormat: MemoTimeFormat;
-	progressMemoEnabled: boolean;
-	progressMemoSuffix: string;
+	progressMemoEnabled?: boolean;
+	progressMemoSuffix?: string;
 	monthlyMemoFolder: string;
 	monthlyMemoFileFormat: string;
 	monthlyDateHeadingFormat: string;
@@ -31,6 +31,6 @@ export interface KnomoSettings {
 	managedObsidianExcludeRule?: string;
 	managedObsidianExcludeRuleOwned?: boolean;
 	pinnedTags: string[];
-	sidebarNavOrder: string[];
-	sidebarTagOrder: string[];
+	sidebarNavOrder?: string[];
+	sidebarTagOrder?: string[];
 }

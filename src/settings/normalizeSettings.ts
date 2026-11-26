@@ -94,8 +94,8 @@ export function normalizeSettings(value: unknown): KnomoSettings {
 		dailyHeading: stringOrDefault(merged.dailyHeading, DEFAULT_KNOMO_SETTINGS.dailyHeading),
 		dailyInsertPosition,
 		memoTimeFormat,
-		progressMemoEnabled: booleanOrDefault(merged.progressMemoEnabled, DEFAULT_KNOMO_SETTINGS.progressMemoEnabled),
-		progressMemoSuffix: typeof merged.progressMemoSuffix === "string" ? merged.progressMemoSuffix : DEFAULT_KNOMO_SETTINGS.progressMemoSuffix,
+		progressMemoEnabled: booleanOrDefault(merged.progressMemoEnabled, DEFAULT_KNOMO_SETTINGS.progressMemoEnabled ?? true),
+		progressMemoSuffix: typeof merged.progressMemoSuffix === "string" ? merged.progressMemoSuffix : DEFAULT_KNOMO_SETTINGS.progressMemoSuffix ?? "",
 		monthlyMemoFolder: normalizeVaultPath(
 			stringOrDefault(merged.monthlyMemoFolder, DEFAULT_KNOMO_SETTINGS.monthlyMemoFolder),
 		),
@@ -140,8 +140,8 @@ export function normalizeSettings(value: unknown): KnomoSettings {
 			DEFAULT_KNOMO_SETTINGS.managedObsidianExcludeRuleOwned ?? false,
 		),
 		pinnedTags: stringArrayOrDefault(merged.pinnedTags, DEFAULT_KNOMO_SETTINGS.pinnedTags),
-		sidebarNavOrder: stringArrayOrDefault(merged.sidebarNavOrder, DEFAULT_KNOMO_SETTINGS.sidebarNavOrder),
-		sidebarTagOrder: stringArrayOrDefault(merged.sidebarTagOrder, DEFAULT_KNOMO_SETTINGS.sidebarTagOrder),
+		sidebarNavOrder: stringArrayOrDefault(merged.sidebarNavOrder, DEFAULT_KNOMO_SETTINGS.sidebarNavOrder ?? []),
+		sidebarTagOrder: stringArrayOrDefault(merged.sidebarTagOrder, DEFAULT_KNOMO_SETTINGS.sidebarTagOrder ?? []),
 	};
 }
 
@@ -151,5 +151,7 @@ export function cloneSettings(settings: KnomoSettings): KnomoSettings {
 		composerToolbar: normalizeComposerToolbar(settings.composerToolbar),
 		legacyDailyHeadings: [...settings.legacyDailyHeadings],
 		pinnedTags: [...settings.pinnedTags],
+		sidebarNavOrder: [...(settings.sidebarNavOrder ?? [])],
+		sidebarTagOrder: [...(settings.sidebarTagOrder ?? [])],
 	};
 }
