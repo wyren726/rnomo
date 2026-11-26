@@ -41,7 +41,7 @@ test("about groups expose updates, text contacts and two bundled reward codes", 
 		assert.ok(links.some(link => link.href === "https://github.com/BanyanSo/knomo/issues/new"));
 		assert.ok(links.some(link => link.href === "mailto:rongshuso@gmail.com" && link.text === "rongshuso@gmail.com"));
 		assert.ok(links.some(link => link.href === "https://x.com/Banyansu"));
-		assert.ok(links.some(link => link.text === "@Knomo笔记"));
+	assert.ok(links.some(link => link.text === "@Rnomo笔记"));
 		assert.ok(links.some(link => link.href === "https://example.com/extra"));
 		assert.ok(!links.some(link => link.text === "rongshuso"));
 		assert.equal(images.length, 2);

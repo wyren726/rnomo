@@ -487,7 +487,7 @@ export default class KnomoPlugin extends Plugin {
 		this.registerReferenceEvents();
 
 		this.registerHoverLinkSource(KNOMO_VIEW_TYPE, {
-			display: "Knomo",
+			display: "Rnomo",
 			defaultMod: false,
 		});
 

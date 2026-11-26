@@ -45,6 +45,7 @@ import type { VaultTagIndex } from "../services/VaultTagIndex";
 import { RecordStatsService } from "../services/RecordStatsService";
 import type { RecordStatsView } from "../services/RecordStatsService";
 import type { SettingsService } from "../services/SettingsService";
+import { CollectionRecordService } from "../services/CollectionRecordService";
 import type { ShuffleDayService } from "../services/ShuffleDayService";
 import type { CatalogCoverage, CatalogQueryFilter, CatalogRefreshResult } from "../types/catalog";
 import type {
@@ -122,6 +123,7 @@ import { getTextareaCharacterRect } from "./composerSuggestPosition";
 import { ImagePreviewScrollLock } from "./ImagePreviewScrollLock";
 import { ImageResourceCache } from "./ImageResourceCache";
 import { showKnomoConfirmModal } from "./KnomoConfirmModal";
+import { isCollectionNav, renderCollectionPage } from "./CollectionPage";
 import { KnomoImagePreviewModal } from "./KnomoImagePreviewModal";
 import { KnomoShareCardModal } from "./KnomoShareCardModal";
 import { loadShareCardImage, readShareCardSnapshot } from "./share/ShareCardResources";
@@ -539,6 +541,7 @@ export class KnomoView extends ItemView {
 	private readonly recordStatsPreparationController: RecordStatsPreparationController;
 	private readonly recordStatsViewStateController = new RecordStatsViewStateController();
 	private readonly viewStateController = new KnomoViewStateController();
+	private readonly collectionRecordService: CollectionRecordService;
 	private readonly popupState: KnomoPopupState;
 	private readonly mobileSearchController: MobileSearchController;
 	private readonly getDailyNotesStatus: () => DailyNotesStatus;
@@ -727,6 +730,7 @@ export class KnomoView extends ItemView {
 		private readonly onQuickCommandInteraction: (() => void) | null = null,
 	) {
 		super(leaf);
+		this.collectionRecordService = new CollectionRecordService(this.app.vault);
 		this.getDailyNotesStatus = getDailyNotesStatus;
 		this.getTodayDailyNotePath = getTodayDailyNotePath;
 		this.popupState = new KnomoPopupState(() => this.containerEl.win);
@@ -4231,6 +4235,16 @@ export class KnomoView extends ItemView {
 		}
 		if (changeIntent === "view-scope-change") {
 			this.forceRebuildCardFlow(changeIntent);
+			return;
+		}
+		if (isCollectionNav(this.activeNav) && this.cardFlowEl !== null) {
+			renderCollectionPage({
+				app: this.app,
+				container: this.cardFlowEl,
+				kind: this.activeNav === "progress" ? "progress" : "review",
+				service: this.collectionRecordService,
+				onChanged: () => this.renderCardFlow(null, "content-change"),
+			});
 			return;
 		}
 		if (this.deferMobileCardFlowRender(preserveCardMemoId, false, changeIntent)) {
@@ -7947,7 +7961,7 @@ export class KnomoView extends ItemView {
 	}
 
 	private getFilteredMemos(): MemoRecord[] {
-		if (this.activeNav === "trash" || this.activeNav === "record-stats") {
+		if (this.activeNav === "trash" || this.activeNav === "record-stats" || isCollectionNav(this.activeNav)) {
 			return [];
 		}
 		if (this.activeNav === "random") {

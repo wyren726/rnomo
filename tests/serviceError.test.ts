@@ -9,7 +9,7 @@ test("formats active service errors and ordinary error text", async () => {
 
 	assert.equal(
 		formatServiceError(new KnomoError("daily_notes_disabled")),
-		"Enable the Daily Notes core plugin in Obsidian settings. Knomo will read the Daily Notes settings automatically; you do not need to configure the daily note path in Knomo.",
+		"Enable the Daily Notes core plugin in Obsidian settings. Rnomo will read the Daily Notes settings automatically; you do not need to configure the daily note path in Rnomo.",
 	);
 	assert.equal(
 		formatServiceError(new KnomoError("auto_exclude_unsupported")),

@@ -48,6 +48,8 @@ test("renders sidebar navigation, trash, stats, tags, and resizer structure", as
 		"shuffleDay",
 		"time-buoy",
 		"record-stats",
+		"progress",
+		"reviews",
 		"trash",
 	]);
 	assert.equal(sidebar.find(".knomo-time-buoy-count"), null);

@@ -8,6 +8,6 @@ test("formats service text outside UI modules", async () => {
 
 	assert.equal(
 		formatSettingsText("memoId and blockId in _knomo-system"),
-		"memo ID and block ID in Knomo system data folder",
+		"memo ID and block ID in Rnomo system data folder",
 	);
 });
