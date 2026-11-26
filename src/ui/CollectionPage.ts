@@ -5,6 +5,9 @@ import {
 	CollectionRecordService,
 	type CollectionKind,
 	type CollectionRecord,
+	type InventoryInput,
+	type InventoryRecord,
+	type InventoryStatus,
 	type ProgressInput,
 	type ProgressRecord,
 	type ProgressStatus,
@@ -17,7 +20,7 @@ import { showKnomoConfirmModal } from "./KnomoConfirmModal";
 interface CollectionPageOptions {
 	app: App;
 	container: HTMLElement;
-	kind: "progress" | "review";
+	kind: "progress" | "review" | "inventory";
 	service: CollectionRecordService;
 	onChanged: () => void;
 }
@@ -25,10 +28,14 @@ interface CollectionPageOptions {
 interface FieldRefs {
 	title: HTMLInputElement;
 	category?: HTMLInputElement;
+	location?: HTMLInputElement;
 	status: HTMLSelectElement;
 	current?: HTMLInputElement;
 	total?: HTMLInputElement;
 	unit?: HTMLInputElement;
+	quantity?: HTMLInputElement;
+	purchaseDate?: HTMLInputElement;
+	expiryDate?: HTMLInputElement;
 	rating?: HTMLInputElement;
 	tags: HTMLInputElement;
 	link: HTMLInputElement;
@@ -54,8 +61,8 @@ function setText(element: HTMLElement, text: string): void {
 	element.textContent = text;
 }
 
-export function isCollectionNav(value: string): value is CollectionKind {
-	return value === "progress" || value === "reviews";
+export function isCollectionNav(value: string): value is "progress" | "reviews" | "inventory" {
+	return value === "progress" || value === "reviews" || value === "inventory";
 }
 
 export function renderCollectionPage(options: CollectionPageOptions): void {
@@ -65,23 +72,24 @@ export function renderCollectionPage(options: CollectionPageOptions): void {
 	const page = container.createDiv({ cls: "rnomo-collection-shell" });
 	const header = page.createDiv({ cls: "rnomo-collection-header" });
 	const heading = header.createDiv({ cls: "rnomo-collection-heading" });
-	setText(heading.createEl("h2"), kind === "progress" ? t("collection.progress.title") : t("collection.review.title"));
-	setText(heading.createDiv({ cls: "rnomo-collection-subtitle" }), kind === "progress" ? t("collection.progress.desc") : t("collection.review.desc"));
+	const inventory = kind === "inventory";
+	setText(heading.createEl("h2"), kind === "progress" ? t("collection.progress.title") : inventory ? t("collection.inventory.title") : t("collection.review.title"));
+	setText(heading.createDiv({ cls: "rnomo-collection-subtitle" }), kind === "progress" ? t("collection.progress.desc") : inventory ? t("collection.inventory.desc") : t("collection.review.desc"));
 	const add = header.createEl("button", { cls: "rnomo-collection-add", attr: { type: "button" } });
-	add.textContent = kind === "progress" ? t("collection.progress.add") : t("collection.review.add");
+	add.textContent = kind === "progress" ? t("collection.progress.add") : inventory ? t("collection.inventory.add") : t("collection.review.add");
 	add.addEventListener("click", () => new CollectionRecordModal(options.app, options.service, kind, null, options.onChanged).open());
 
 	const list = page.createDiv({ cls: "rnomo-collection-list", attr: { "aria-live": "polite" } });
 	setText(list.createDiv({ cls: "rnomo-collection-loading" }), t("collection.loading"));
-	void options.service.list(kind === "progress" ? "progress" : "review").then(records => {
+	void options.service.list(kind === "progress" ? "progress" : inventory ? "inventory" : "review").then(records => {
 		if (!container.isConnected) return;
 		list.empty();
 		if (records.length === 0) {
 			const empty = list.createDiv({ cls: "rnomo-collection-empty" });
 			setText(empty.createDiv({ cls: "rnomo-collection-empty-title" }), t("collection.empty"));
-			setText(empty.createDiv({ cls: "rnomo-collection-empty-desc" }), kind === "progress" ? t("collection.progress.empty") : t("collection.review.empty"));
+			setText(empty.createDiv({ cls: "rnomo-collection-empty-desc" }), kind === "progress" ? t("collection.progress.empty") : inventory ? t("collection.inventory.empty") : t("collection.review.empty"));
 			const emptyAdd = empty.createEl("button", { cls: "rnomo-collection-empty-action", attr: { type: "button" } });
-			emptyAdd.textContent = kind === "progress" ? t("collection.progress.add") : t("collection.review.add");
+			emptyAdd.textContent = kind === "progress" ? t("collection.progress.add") : inventory ? t("collection.inventory.add") : t("collection.review.add");
 			emptyAdd.addEventListener("click", () => new CollectionRecordModal(options.app, options.service, kind, null, options.onChanged).open());
 			return;
 		}
@@ -129,12 +137,21 @@ function renderRecordCard(container: HTMLElement, options: CollectionPageOptions
 		progress.createDiv({ cls: "rnomo-collection-progress-fill" }).style.width = `${Math.round(progressRatio(record) * 100)}%`;
 		setText(card.createDiv({ cls: "rnomo-collection-card-note" }), record.note || t("collection.noNote"));
 		if (record.tags.length > 0) setText(card.createDiv({ cls: "rnomo-collection-tags" }), tagsText(record.tags));
-	} else {
+	} else if (record.kind === "review") {
 		const meta = card.createDiv({ cls: "rnomo-collection-card-meta" });
 		setText(meta.createSpan({ cls: "rnomo-collection-stars" }), `${"★".repeat(Math.round(record.rating))}${"☆".repeat(5 - Math.round(record.rating))}`);
 		setText(meta.createSpan({ cls: "rnomo-collection-status" }), t(`collection.review.status.${record.status === "in-progress" ? "inProgress" : record.status}`));
 		if (record.category) setText(meta.createSpan(), record.category);
 		setText(meta.createSpan(), formatDate(record.updatedAt));
+		setText(card.createDiv({ cls: "rnomo-collection-card-note" }), record.note || t("collection.noNote"));
+		if (record.tags.length > 0) setText(card.createDiv({ cls: "rnomo-collection-tags" }), tagsText(record.tags));
+	} else {
+		const meta = card.createDiv({ cls: "rnomo-collection-card-meta" });
+		setText(meta.createSpan({ cls: "rnomo-collection-status" }), t(`collection.inventory.status.${record.status === "used-up" ? "usedUp" : record.status}`));
+		if (record.category) setText(meta.createSpan(), record.category);
+		if (record.location) setText(meta.createSpan(), `${t("collection.inventory.location")}: ${record.location}`);
+		setText(meta.createSpan(), `${record.quantity} ${record.unit}`.trim());
+		if (record.expiryDate) setText(meta.createSpan(), `${t("collection.inventory.expiry")}: ${record.expiryDate}`);
 		setText(card.createDiv({ cls: "rnomo-collection-card-note" }), record.note || t("collection.noNote"));
 		if (record.tags.length > 0) setText(card.createDiv({ cls: "rnomo-collection-tags" }), tagsText(record.tags));
 	}
@@ -161,7 +178,7 @@ class CollectionRecordModal extends Modal {
 
 	onOpen(): void {
 		this.modalEl.addClass("rnomo-collection-modal");
-		this.titleEl.setText(this.existing ? t("collection.edit") : this.kind === "progress" ? t("collection.progress.add") : t("collection.review.add"));
+		this.titleEl.setText(this.existing ? t("collection.edit") : this.kind === "progress" ? t("collection.progress.add") : this.kind === "inventory" ? t("collection.inventory.add") : t("collection.review.add"));
 		this.contentEl.empty();
 		const form = this.contentEl.createEl("form", { cls: "rnomo-collection-form" });
 		const title = this.addTextField(form, t("collection.field.title"), this.existing?.title ?? "");
@@ -174,14 +191,23 @@ class CollectionRecordModal extends Modal {
 			current = this.addNumberField(form, t("collection.field.current"), (this.existing?.kind === "progress" ? this.existing.current : 0), 0);
 			total = this.addNumberField(form, t("collection.field.total"), this.existing?.kind === "progress" && this.existing.total !== null ? this.existing.total : undefined, 0);
 			unit = this.addTextField(form, t("collection.field.unit"), this.existing?.kind === "progress" ? this.existing.unit : "");
-		} else {
+		} else if (this.kind === "review") {
 			category = this.addTextField(form, t("collection.field.category"), this.existing?.kind === "review" ? this.existing.category : "");
 			rating = this.addNumberField(form, t("collection.field.rating"), this.existing?.kind === "review" ? this.existing.rating : 0, 0, 5, 0.5);
+		} else {
+			category = this.addTextField(form, t("collection.field.category"), this.existing?.kind === "inventory" ? this.existing.category : "");
+			const location = this.addTextField(form, t("collection.field.location"), this.existing?.kind === "inventory" ? this.existing.location : "");
+			const quantity = this.addNumberField(form, t("collection.field.quantity"), this.existing?.kind === "inventory" ? this.existing.quantity : 1, 0);
+			const unit = this.addTextField(form, t("collection.field.unit"), this.existing?.kind === "inventory" ? this.existing.unit : "");
+			const purchaseDate = this.addTextField(form, t("collection.field.purchaseDate"), this.existing?.kind === "inventory" ? this.existing.purchaseDate : "");
+			const expiryDate = this.addTextField(form, t("collection.field.expiryDate"), this.existing?.kind === "inventory" ? this.existing.expiryDate : "");
+			category.dataset.inventory = "category"; location.dataset.inventory = "location"; quantity.dataset.inventory = "quantity";
+			unit.dataset.inventory = "unit"; purchaseDate.dataset.inventory = "purchaseDate"; expiryDate.dataset.inventory = "expiryDate";
 		}
 		const status = this.addSelectField(form, t("collection.field.status"), this.kind === "progress" ? [
 			["planned", t("collection.progress.status.planned")], ["active", t("collection.progress.status.active")],
 			["paused", t("collection.progress.status.paused")], ["done", t("collection.progress.status.done")],
-		] : [["planned", t("collection.review.status.planned")], ["in-progress", t("collection.review.status.inProgress")], ["done", t("collection.review.status.done")]], this.existing?.kind === "progress" ? this.existing.status : this.existing ? "in-progress" : "planned");
+		] : this.kind === "review" ? [["planned", t("collection.review.status.planned")], ["in-progress", t("collection.review.status.inProgress")], ["done", t("collection.review.status.done")]] : [["available", t("collection.inventory.status.available")], ["low", t("collection.inventory.status.low")], ["used-up", t("collection.inventory.status.usedUp")], ["archived", t("collection.inventory.status.archived")]], this.existing?.status ?? (this.kind === "inventory" ? "available" : "planned"));
 		const tags = this.addTextField(form, t("collection.field.tags"), this.existing?.tags.join(", ") ?? "");
 		const link = this.addTextField(form, t("collection.field.link"), this.existing?.link ?? "");
 		const note = this.addTextAreaField(form, t("collection.field.note"), this.existing?.note ?? "");
@@ -218,13 +244,22 @@ class CollectionRecordModal extends Modal {
 				};
 				if (this.existing?.kind === "progress") await this.service.update(this.existing, input);
 				else await this.service.createProgress(input);
-			} else {
+			} else if (this.kind === "review") {
 				const input: ReviewInput = {
 					title, category: refs.category?.value.trim() ?? "", status: refs.status.value as ReviewStatus, rating: Number(refs.rating?.value ?? 0) || 0,
 					tags, link: refs.link.value.trim(), note: refs.note.value,
 				};
 				if (this.existing?.kind === "review") await this.service.update(this.existing, input);
 				else await this.service.createReview(input);
+			} else {
+				const value = (key: string): string => this.contentEl.querySelector<HTMLInputElement>(`[data-inventory="${key}"]`)?.value.trim() ?? "";
+				const input: InventoryInput = {
+					title, category: value("category"), location: value("location"), quantity: Number(value("quantity")) || 0,
+					unit: value("unit"), status: refs.status.value as InventoryStatus, purchaseDate: value("purchaseDate"),
+					expiryDate: value("expiryDate"), tags, link: refs.link.value.trim(), note: refs.note.value,
+				};
+				if (this.existing?.kind === "inventory") await this.service.update(this.existing, input);
+				else await this.service.createInventory(input);
 			}
 			new Notice(t("collection.saved"));
 			this.close();

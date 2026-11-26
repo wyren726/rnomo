@@ -50,6 +50,7 @@ test("renders sidebar navigation, trash, stats, tags, and resizer structure", as
 		"record-stats",
 		"progress",
 		"reviews",
+		"inventory",
 		"trash",
 	]);
 	assert.equal(sidebar.find(".knomo-time-buoy-count"), null);

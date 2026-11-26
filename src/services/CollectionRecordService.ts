@@ -1,8 +1,9 @@
 import { TFile, Vault } from "obsidian";
 
-export type CollectionKind = "progress" | "review";
+export type CollectionKind = "progress" | "review" | "inventory";
 export type ProgressStatus = "planned" | "active" | "paused" | "done";
 export type ReviewStatus = "planned" | "in-progress" | "done";
+export type InventoryStatus = "available" | "low" | "used-up" | "archived";
 
 export interface ProgressRecord {
 	kind: "progress";
@@ -35,16 +36,39 @@ export interface ReviewRecord {
 	path: string;
 }
 
-export type CollectionRecord = ProgressRecord | ReviewRecord;
+export interface InventoryRecord {
+	kind: "inventory";
+	id: string;
+	title: string;
+	category: string;
+	location: string;
+	quantity: number;
+	unit: string;
+	status: InventoryStatus;
+	purchaseDate: string;
+	expiryDate: string;
+	tags: string[];
+	link: string;
+	note: string;
+	createdAt: string;
+	updatedAt: string;
+	path: string;
+}
+
+export type CollectionRecord = ProgressRecord | ReviewRecord | InventoryRecord;
 
 export type ProgressInput = Omit<ProgressRecord, "kind" | "id" | "createdAt" | "updatedAt" | "path">;
 export type ReviewInput = Omit<ReviewRecord, "kind" | "id" | "createdAt" | "updatedAt" | "path">;
+export type InventoryInput = Omit<InventoryRecord, "kind" | "id" | "createdAt" | "updatedAt" | "path">;
 
 export const RNOMO_PROGRESS_FOLDER = "Rnomo/Progress";
 export const RNOMO_REVIEW_FOLDER = "Rnomo/Reviews";
+export const RNOMO_INVENTORY_FOLDER = "Rnomo/Inventory";
 
 function folderFor(kind: CollectionKind): string {
-	return kind === "progress" ? RNOMO_PROGRESS_FOLDER : RNOMO_REVIEW_FOLDER;
+	if (kind === "progress") return RNOMO_PROGRESS_FOLDER;
+	if (kind === "review") return RNOMO_REVIEW_FOLDER;
+	return RNOMO_INVENTORY_FOLDER;
 }
 
 function nowIso(): string {
@@ -127,9 +151,16 @@ function serializeRecord(record: CollectionRecord): string {
 			`total: ${record.total === null ? "null" : record.total}`,
 			`unit: ${quote(record.unit)}`,
 		);
-	} else {
+	} else if (record.kind === "review") {
 		common.push(`category: ${quote(record.category)}`, `rating: ${record.rating}`);
 		common.push(`status: ${record.status}`);
+	} else {
+		common.push(
+			`category: ${quote(record.category)}`, `location: ${quote(record.location)}`,
+			`quantity: ${record.quantity}`, `unit: ${quote(record.unit)}`,
+			`status: ${record.status}`, `purchaseDate: ${quote(record.purchaseDate)}`,
+			`expiryDate: ${quote(record.expiryDate)}`,
+		);
 	}
 	return [...common, "---", "", record.note.trim(), ""].join("\n");
 }
@@ -175,6 +206,22 @@ function asReview(file: TFile, frontmatter: Record<string, unknown>, body: strin
 	};
 }
 
+function asInventory(file: TFile, frontmatter: Record<string, unknown>, body: string): InventoryRecord | null {
+	const title = stringValue(frontmatter, "title", file.basename).trim();
+	if (!title) return null;
+	const status = stringValue(frontmatter, "status", "available");
+	return {
+		kind: "inventory", id: stringValue(frontmatter, "id", file.path), title,
+		category: stringValue(frontmatter, "category"), location: stringValue(frontmatter, "location"),
+		quantity: Math.max(0, numberValue(frontmatter, "quantity", 1)), unit: stringValue(frontmatter, "unit"),
+		status: ["available", "low", "used-up", "archived"].includes(status) ? status as InventoryStatus : "available",
+		purchaseDate: stringValue(frontmatter, "purchaseDate"), expiryDate: stringValue(frontmatter, "expiryDate"),
+		tags: tagsValue(frontmatter), link: stringValue(frontmatter, "link"), note: body,
+		createdAt: stringValue(frontmatter, "createdAt", new Date(file.stat.ctime).toISOString()),
+		updatedAt: stringValue(frontmatter, "updatedAt", new Date(file.stat.mtime).toISOString()), path: file.path,
+	};
+}
+
 export class CollectionRecordService {
 	constructor(private readonly vault: Vault) {}
 
@@ -188,7 +235,8 @@ export class CollectionRecordService {
 				if (parsed.frontmatter.rnomoType !== kind) continue;
 				const record = kind === "progress"
 					? asProgress(file, parsed.frontmatter, parsed.body)
-					: asReview(file, parsed.frontmatter, parsed.body);
+					: kind === "review" ? asReview(file, parsed.frontmatter, parsed.body)
+						: asInventory(file, parsed.frontmatter, parsed.body);
 				if (record !== null) records.push(record);
 			} catch {
 				// One malformed record should not hide the remaining collection.
@@ -219,7 +267,17 @@ export class CollectionRecordService {
 		return record;
 	}
 
-	async update(record: CollectionRecord, input: ProgressInput | ReviewInput): Promise<CollectionRecord> {
+	async createInventory(input: InventoryInput): Promise<InventoryRecord> {
+		const now = nowIso();
+		const record: InventoryRecord = {
+			kind: "inventory", id: this.createId(), ...input,
+			quantity: Math.max(0, input.quantity), createdAt: now, updatedAt: now, path: "",
+		};
+		record.path = await this.createFile(record);
+		return record;
+	}
+
+	async update(record: CollectionRecord, input: ProgressInput | ReviewInput | InventoryInput): Promise<CollectionRecord> {
 		const updated = { ...record, ...input, updatedAt: nowIso() } as CollectionRecord;
 		await this.vault.modify(this.requireFile(record.path), serializeRecord(updated));
 		return { ...updated, path: record.path } as CollectionRecord;

@@ -4241,7 +4241,7 @@ export class KnomoView extends ItemView {
 			renderCollectionPage({
 				app: this.app,
 				container: this.cardFlowEl,
-				kind: this.activeNav === "progress" ? "progress" : "review",
+				kind: this.activeNav === "progress" ? "progress" : this.activeNav === "reviews" ? "review" : "inventory",
 				service: this.collectionRecordService,
 				onChanged: () => this.renderCardFlow(null, "content-change"),
 			});

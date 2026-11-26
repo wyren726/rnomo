@@ -7,7 +7,7 @@ import {
 } from "./viewFilters";
 import type { RecordStatsSearchFilter, ScopeFilter, SearchDateFilter } from "./viewFilters";
 
-export type SidebarNav = "things" | "all" | "wechat" | "review" | "ai" | "random" | "shuffleDay" | "time-buoy" | "record-stats" | "progress" | "reviews" | "trash";
+export type SidebarNav = "things" | "all" | "wechat" | "review" | "ai" | "random" | "shuffleDay" | "time-buoy" | "record-stats" | "progress" | "reviews" | "inventory" | "trash";
 export type TitleMode = "things" | "all" | "no-tag" | "with-link" | "with-image" | "referenced" | "anniversary" | "review" | "random" | "shuffleDay";
 
 export interface SearchDateOption {
@@ -52,6 +52,7 @@ const SIDEBAR_NAV_ITEMS: SidebarNavItem[] = [
 	{ nav: "record-stats", label: t("nav.recordStats"), icon: "chart-column-increasing" },
 	{ nav: "progress", label: t("nav.progress"), icon: "trending-up" },
 	{ nav: "reviews", label: t("nav.reviews"), icon: "star" },
+	{ nav: "inventory", label: t("nav.inventory"), icon: "archive" },
 ];
 
 export const TRASH_NAV_ITEM: SidebarNavItem = { nav: "trash", label: t("nav.trash"), icon: "trash-2" };
@@ -84,8 +85,8 @@ export function getSidebarNavItems(timeBuoyEnabled = false): SidebarNavItem[] {
 		: SIDEBAR_NAV_ITEMS.filter((item) => item.nav !== "time-buoy");
 }
 
-export function isCollectionNav(value: SidebarNav): value is "progress" | "reviews" {
-	return value === "progress" || value === "reviews";
+export function isCollectionNav(value: SidebarNav): value is "progress" | "reviews" | "inventory" {
+	return value === "progress" || value === "reviews" || value === "inventory";
 }
 
 export function getAllSidebarNavItems(): SidebarNavItem[] {
