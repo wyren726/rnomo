@@ -5749,7 +5749,13 @@ body.is-mobile .workspace-leaf-content[data-type="knomo-view"] .view-header-titl
 .rnomo-collection-editor-close { border:0; background:transparent; color:var(--text-muted); cursor:pointer; padding:.3rem .45rem; }
 .rnomo-collection-editor-close:hover { color:var(--text-normal); }
 .rnomo-collection-form { display:grid; gap:.75rem; }
+.rnomo-collection-field-row { display:grid; gap:.75rem; }
+.rnomo-collection-field-row-three { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+.rnomo-collection-field-row-two { grid-template-columns:repeat(2, minmax(0, 1fr)); }
 .rnomo-collection-field { display:grid; gap:.35rem; }
 .rnomo-collection-field label { color:var(--text-muted); font-size:.85rem; }
 .rnomo-collection-field input, .rnomo-collection-field select, .rnomo-collection-field textarea { width:100%; }
 .rnomo-collection-form-actions { display:flex; justify-content:flex-end; gap:.5rem; margin-top:.5rem; }
+@media (max-width:600px) {
+  .rnomo-collection-field-row-three, .rnomo-collection-field-row-two { grid-template-columns:1fr; }
+}

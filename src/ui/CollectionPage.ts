@@ -225,22 +225,28 @@ class CollectionRecordEditor {
 		let purchaseDate: HTMLInputElement | undefined;
 		let expiryDate: HTMLInputElement | undefined;
 		let rating: HTMLInputElement | undefined;
+		let statusParent: HTMLElement = form;
 		if (this.kind === "progress") {
-			current = this.addNumberField(form, t("collection.field.current"), this.existing?.kind === "progress" ? this.existing.current : 0, 0);
-			total = this.addNumberField(form, t("collection.field.total"), this.existing?.kind === "progress" && this.existing.total !== null ? this.existing.total : undefined, 0);
-			unit = this.addTextField(form, t("collection.field.unit"), this.existing?.kind === "progress" ? this.existing.unit : "");
+			const progressRow = form.createDiv({ cls: "rnomo-collection-field-row rnomo-collection-field-row-three" });
+			current = this.addNumberField(progressRow, t("collection.field.current"), this.existing?.kind === "progress" ? this.existing.current : 0, 0);
+			total = this.addNumberField(progressRow, t("collection.field.total"), this.existing?.kind === "progress" && this.existing.total !== null ? this.existing.total : undefined, 0);
+			unit = this.addTextField(progressRow, t("collection.field.unit"), this.existing?.kind === "progress" ? this.existing.unit : "");
 		} else if (this.kind === "review") {
-			category = this.addTextField(form, t("collection.field.category"), this.existing?.kind === "review" ? this.existing.category : "");
-			rating = this.addNumberField(form, t("collection.field.rating"), this.existing?.kind === "review" ? this.existing.rating : 0, 0, 5, 0.5);
+			const reviewRow = form.createDiv({ cls: "rnomo-collection-field-row rnomo-collection-field-row-three" });
+			statusParent = reviewRow;
+			category = this.addTextField(reviewRow, t("collection.field.category"), this.existing?.kind === "review" ? this.existing.category : "");
+			rating = this.addNumberField(reviewRow, t("collection.field.rating"), this.existing?.kind === "review" ? this.existing.rating : 0, 0, 5, 0.5);
 		} else {
 			category = this.addTextField(form, t("collection.field.category"), this.existing?.kind === "inventory" ? this.existing.category : "");
 			location = this.addTextField(form, t("collection.field.location"), this.existing?.kind === "inventory" ? this.existing.location : "");
-			quantity = this.addNumberField(form, t("collection.field.quantity"), this.existing?.kind === "inventory" ? this.existing.quantity : 1, 0);
-			unit = this.addTextField(form, t("collection.field.unit"), this.existing?.kind === "inventory" ? this.existing.unit : "");
-			purchaseDate = this.addTextField(form, t("collection.field.purchaseDate"), this.existing?.kind === "inventory" ? this.existing.purchaseDate : "");
-			expiryDate = this.addTextField(form, t("collection.field.expiryDate"), this.existing?.kind === "inventory" ? this.existing.expiryDate : "");
+			const quantityRow = form.createDiv({ cls: "rnomo-collection-field-row rnomo-collection-field-row-two" });
+			quantity = this.addNumberField(quantityRow, t("collection.field.quantity"), this.existing?.kind === "inventory" ? this.existing.quantity : 1, 0);
+			unit = this.addTextField(quantityRow, t("collection.field.unit"), this.existing?.kind === "inventory" ? this.existing.unit : "");
+			const datesRow = form.createDiv({ cls: "rnomo-collection-field-row rnomo-collection-field-row-two" });
+			purchaseDate = this.addTextField(datesRow, t("collection.field.purchaseDate"), this.existing?.kind === "inventory" ? this.existing.purchaseDate : "");
+			expiryDate = this.addTextField(datesRow, t("collection.field.expiryDate"), this.existing?.kind === "inventory" ? this.existing.expiryDate : "");
 		}
-		const status = this.addSelectField(form, t("collection.field.status"), this.kind === "progress" ? [
+		const status = this.addSelectField(statusParent, t("collection.field.status"), this.kind === "progress" ? [
 			["planned", t("collection.progress.status.planned")], ["active", t("collection.progress.status.active")],
 			["paused", t("collection.progress.status.paused")], ["done", t("collection.progress.status.done")],
 		] : this.kind === "review" ? [
