@@ -242,7 +242,9 @@ export class CollectionRecordService {
 				// One malformed record should not hide the remaining collection.
 			}
 		}
-		return records.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+		// Keep the collection order stable when a record is edited or its progress changes.
+		// Updated timestamps are metadata, not a reason to move a card in the list.
+		return records.sort((a, b) => b.createdAt.localeCompare(a.createdAt) || a.path.localeCompare(b.path));
 	}
 
 	async createProgress(input: ProgressInput): Promise<ProgressRecord> {

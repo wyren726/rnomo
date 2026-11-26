@@ -524,6 +524,8 @@ export const en: Record<TranslationKey, string> = {
 	"settings.progressMemo.desc": "Create a normal Memo in today's daily note when using the progress +/- buttons. Editing the form does not create a Memo.",
 	"settings.progressMemo.suffix.name": "Progress Memo suffix",
 	"settings.progressMemo.suffix.desc": "Optional text appended to automatically generated progress Memos.",
+	"settings.progressStep.name": "Progress step amount",
+	"settings.progressStep.desc": "The amount added or subtracted by each progress button click.",
 	"settings.timeBuoy.name": "Time buoy",
 	"settings.timeBuoy.desc": "Recognize @YYYY-MM-DD in memos to help revisit content connected to a day. Memo text is not changed.",
 	"settings.timeBuoy.enabled": "Time buoy enabled",

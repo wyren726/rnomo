@@ -19,6 +19,7 @@ export const DEFAULT_KNOMO_SETTINGS: KnomoSettings = {
 	memoTimeFormat: DEFAULT_MEMO_TIME_FORMAT,
 	progressMemoEnabled: true,
 	progressMemoSuffix: "",
+	progressStepAmount: 1,
 	monthlyMemoFolder: DEFAULT_MONTHLY_MEMO_FOLDER,
 	monthlyMemoFileFormat: DEFAULT_MONTHLY_MEMO_FILE_FORMAT,
 	monthlyDateHeadingFormat: DEFAULT_MONTHLY_DATE_HEADING_FORMAT,

@@ -509,6 +509,24 @@ export class KnomoSettingTab extends PluginSettingTab {
 				}
 			});
 		});
+		const stepSetting = new Setting(parent).setName(t("settings.progressStep.name"))
+			.setDesc(t("settings.progressStep.desc"));
+		stepSetting.addText((text) => {
+			text.inputEl.type = "number";
+			text.inputEl.min = "1";
+			text.inputEl.step = "1";
+			text.setValue(String(this.settingsService.getSettings().progressStepAmount ?? 1));
+			text.onChange(async (value) => {
+				const amount = Math.max(1, Math.round(Number(value) || 1));
+				text.setValue(String(amount));
+				try {
+					await this.settingsService.updateSettings({ progressStepAmount: amount });
+				} catch {
+					text.setValue(String(this.settingsService.getSettings().progressStepAmount ?? 1));
+					new Notice(t("error.saveFailed"));
+				}
+			});
+		});
 	}
 
 	private renderReduceGlassSetting(setting: Setting): void {

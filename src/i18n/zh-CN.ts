@@ -522,6 +522,8 @@ export const zhCN = {
 	"settings.progressMemo.desc": "点击进度集的加减按钮时，自动在当日日记中生成普通 Memo。编辑表单不会生成 Memo。",
 	"settings.progressMemo.suffix.name": "进度 Memo 后缀",
 	"settings.progressMemo.suffix.desc": "可填写鼓励语句，会追加到自动生成的进度 Memo 末尾。",
+	"settings.progressStep.name": "每次进度变化量",
+	"settings.progressStep.desc": "点击进度集的加减按钮时，每次增加或减少的数值。",
 	"settings.timeBuoy.name": "时光浮标",
 	"settings.timeBuoy.desc": "识别 Memo 中的 @YYYY-MM-DD，帮助你回看与某一天相关的内容。不会修改原文。",
 	"settings.timeBuoy.enabled": "时光浮标已启用",

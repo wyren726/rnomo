@@ -4292,14 +4292,15 @@ export class KnomoView extends ItemView {
 			kind: this.activeNav === "progress" ? "progress" : this.activeNav === "reviews" ? "review" : "inventory",
 			service: this.collectionRecordService,
 			onProgressDelta: (record, delta) => this.handleProgressDelta(record, delta),
+			progressStep: this.settingsService.getSettings().progressStepAmount ?? 1,
 			onChanged: () => this.renderCardFlow(null, "content-change"),
 		});
 		return true;
 	}
 
-	private async handleProgressDelta(record: ProgressRecord, delta: -1 | 1): Promise<void> {
+	private async handleProgressDelta(record: ProgressRecord, delta: number): Promise<ProgressRecord> {
 		const next = record.current + delta;
-		if (next < 0 || record.total !== null && next > record.total) return;
+		if (next < 0 || record.total !== null && next > record.total) return record;
 		const input: ProgressInput = {
 			title: record.title,
 			status: record.status,
@@ -4310,13 +4311,13 @@ export class KnomoView extends ItemView {
 			link: record.link,
 			note: record.note,
 		};
-		await this.collectionRecordService.update(record, input);
+		const updated = await this.collectionRecordService.update(record, input) as ProgressRecord;
 		const settings = this.settingsService.getSettings();
-		if (settings.progressMemoEnabled === false) return;
+		if (settings.progressMemoEnabled === false) return updated;
 		const suffix = (settings.progressMemoSuffix ?? "").trim();
 		const content = t("collection.progress.memo", {
 			title: record.title,
-			delta: delta > 0 ? "+1" : "-1",
+			delta: delta > 0 ? `+${delta}` : String(delta),
 			from: record.current,
 			to: next,
 			unit: record.unit ? ` ${record.unit}` : "",
@@ -4327,6 +4328,7 @@ export class KnomoView extends ItemView {
 		} catch (error) {
 			new Notice(`${t("collection.progress.memoFailed")} ${String(error)}`);
 		}
+		return updated;
 	}
 
 	private renderRecordStatsPage(force = false): void {

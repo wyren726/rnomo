@@ -175,6 +175,19 @@ export function syncSidebarNavButtons(rootEl: HTMLElement | null, activeNav: Sid
 	});
 }
 
+function clearDropPreview(container: HTMLElement | null): void {
+	if (container === null || typeof container.querySelectorAll !== "function") return;
+	container.querySelectorAll<HTMLElement>(".is-drop-before, .is-drop-after").forEach((element) => {
+		element.removeClass("is-drop-before");
+		element.removeClass("is-drop-after");
+	});
+}
+
+function setDropPreview(target: HTMLElement, insertBefore: boolean): void {
+	clearDropPreview(target.parentElement);
+	target.addClass(insertBefore ? "is-drop-before" : "is-drop-after");
+}
+
 function renderSidebarNavButton(container: HTMLElement, item: SidebarNavItem, onOrderChanged?: (order: string[]) => void): HTMLButtonElement {
 	const button = container.createEl("button", {
 		cls: "knomo-nav-button",
@@ -191,16 +204,26 @@ function renderSidebarNavButton(container: HTMLElement, item: SidebarNavItem, on
 			event.dataTransfer?.setData("text/plain", item.nav);
 			button.addClass("is-dragging");
 		});
-		button.addEventListener("dragend", () => button.removeClass("is-dragging"));
-		button.addEventListener("dragover", event => event.preventDefault());
+		button.addEventListener("dragend", () => {
+			button.removeClass("is-dragging");
+			clearDropPreview(button.parentElement);
+		});
+		button.addEventListener("dragover", event => {
+			event.preventDefault();
+			const rect = button.getBoundingClientRect();
+			setDropPreview(button, event.clientY < rect.top + rect.height / 2);
+		});
 		button.addEventListener("drop", event => {
 			event.preventDefault();
+			const rect = button.getBoundingClientRect();
+			const insertBefore = event.clientY < rect.top + rect.height / 2;
 			const dragged = event.dataTransfer?.getData("text/plain");
+			clearDropPreview(button.parentElement);
 			if (!dragged || dragged === item.nav) return;
 			const buttons = Array.from(button.parentElement?.querySelectorAll<HTMLElement>("[data-nav]") ?? []);
 			const source = buttons.find(candidate => candidate.getAttribute("data-nav") === dragged);
 			if (!source) return;
-			button.parentElement?.insertBefore(source, button);
+			button.parentElement?.insertBefore(source, insertBefore ? button : button.nextSibling);
 			const reordered = Array.from(button.parentElement?.querySelectorAll<HTMLElement>("[data-nav]") ?? []);
 			onOrderChanged(reordered.map(candidate => candidate.getAttribute("data-nav") ?? "").filter(Boolean));
 		});
@@ -220,20 +243,30 @@ function renderTagTreeNode(container: HTMLElement, tag: TagTreeNode, options: Re
 		node.addEventListener("dragstart", event => {
 			event.dataTransfer?.setData("text/plain", tag.key);
 			node.addClass("is-dragging");
-	});
-		node.addEventListener("dragend", () => node.removeClass("is-dragging"));
-		node.addEventListener("dragover", event => event.preventDefault());
+		});
+		node.addEventListener("dragend", () => {
+			node.removeClass("is-dragging");
+			clearDropPreview(node.parentElement);
+		});
+		node.addEventListener("dragover", event => {
+			event.preventDefault();
+			const rect = node.getBoundingClientRect();
+			setDropPreview(node, event.clientY < rect.top + rect.height / 2);
+		});
 		node.addEventListener("drop", event => {
-		event.preventDefault();
-		const dragged = event.dataTransfer?.getData("text/plain");
-		if (!dragged || dragged === tag.key) return;
-		const siblings = Array.from(node.parentElement?.children ?? []).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement && candidate.hasAttribute("data-sort-key"));
-		const source = siblings.find(candidate => candidate.getAttribute("data-sort-key") === dragged);
-		if (!source) return;
-		node.parentElement?.insertBefore(source, node);
-		const reordered = Array.from(node.parentElement?.children ?? []).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement && candidate.hasAttribute("data-sort-key"));
-		onOrderChanged(reordered.map(candidate => candidate.getAttribute("data-sort-key") ?? "").filter(Boolean));
-	});
+			event.preventDefault();
+			const rect = node.getBoundingClientRect();
+			const insertBefore = event.clientY < rect.top + rect.height / 2;
+			const dragged = event.dataTransfer?.getData("text/plain");
+			clearDropPreview(node.parentElement);
+			if (!dragged || dragged === tag.key) return;
+			const siblings = Array.from(node.parentElement?.children ?? []).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement && candidate.hasAttribute("data-sort-key"));
+			const source = siblings.find(candidate => candidate.getAttribute("data-sort-key") === dragged);
+			if (!source) return;
+			node.parentElement?.insertBefore(source, insertBefore ? node : node.nextSibling);
+			const reordered = Array.from(node.parentElement?.children ?? []).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement && candidate.hasAttribute("data-sort-key"));
+			onOrderChanged(reordered.map(candidate => candidate.getAttribute("data-sort-key") ?? "").filter(Boolean));
+		});
 	}
 	const row = node.createDiv({ cls: "knomo-tag-row" });
 	const button = row.createEl("button", {
@@ -303,6 +336,7 @@ function registerPointerSort(
 		if (destination === null || destination === element) return;
 		const rect = destination.getBoundingClientRect();
 		const insertBefore = event.clientY < rect.top + rect.height / 2;
+		setDropPreview(destination, insertBefore);
 		if (insertBefore) destination.parentElement?.insertBefore(element, destination);
 		else destination.parentElement?.insertBefore(element, destination.nextSibling);
 		element.addClass("is-dragging");
@@ -315,6 +349,7 @@ function registerPointerSort(
 		event.preventDefault();
 		suppressClick = true;
 		element.removeClass("is-dragging");
+		clearDropPreview(element.parentElement);
 		onOrderChanged(getSiblings().map(sibling => sibling.getAttribute("data-nav") ?? sibling.getAttribute("data-sort-key") ?? "").filter(Boolean));
 	};
 	element.addEventListener("pointerup", finish);

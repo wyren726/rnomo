@@ -96,6 +96,7 @@ export function normalizeSettings(value: unknown): KnomoSettings {
 		memoTimeFormat,
 		progressMemoEnabled: booleanOrDefault(merged.progressMemoEnabled, DEFAULT_KNOMO_SETTINGS.progressMemoEnabled ?? true),
 		progressMemoSuffix: typeof merged.progressMemoSuffix === "string" ? merged.progressMemoSuffix : DEFAULT_KNOMO_SETTINGS.progressMemoSuffix ?? "",
+		progressStepAmount: Math.max(1, Math.round(numberOrDefault(merged.progressStepAmount, DEFAULT_KNOMO_SETTINGS.progressStepAmount ?? 1))),
 		monthlyMemoFolder: normalizeVaultPath(
 			stringOrDefault(merged.monthlyMemoFolder, DEFAULT_KNOMO_SETTINGS.monthlyMemoFolder),
 		),

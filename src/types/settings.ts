@@ -15,6 +15,7 @@ export interface KnomoSettings {
 	memoTimeFormat: MemoTimeFormat;
 	progressMemoEnabled?: boolean;
 	progressMemoSuffix?: string;
+	progressStepAmount?: number;
 	monthlyMemoFolder: string;
 	monthlyMemoFileFormat: string;
 	monthlyDateHeadingFormat: string;

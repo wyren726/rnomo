@@ -23,7 +23,8 @@ interface CollectionPageOptions {
 	kind: "progress" | "review" | "inventory";
 	service: CollectionRecordService;
 	onChanged: () => void;
-	onProgressDelta?: (record: ProgressRecord, delta: -1 | 1) => Promise<void>;
+	progressStep?: number;
+	onProgressDelta?: (record: ProgressRecord, delta: number) => Promise<ProgressRecord>;
 }
 
 interface FieldRefs {
@@ -162,26 +163,34 @@ function renderRecordCard(container: HTMLElement, options: CollectionPageOptions
 		const meta = card.createDiv({ cls: "rnomo-collection-card-meta" });
 		setText(meta.createSpan({ cls: "rnomo-collection-status" }), t(`collection.progress.status.${record.status}`));
 		const progressControls = card.createDiv({ cls: "rnomo-collection-progress-controls" });
+		const step = Math.max(1, Math.round(options.progressStep ?? 1));
 		const decrease = progressControls.createEl("button", { cls: "rnomo-collection-progress-step", attr: { type: "button", "aria-label": t("collection.progress.decrease") }, text: "−" });
 		const value = progressControls.createDiv({ cls: "rnomo-collection-progress-value" });
 		setText(value, `${record.current}${record.total === null ? "" : ` / ${record.total}`} ${record.unit}`.trim());
 		const increase = progressControls.createEl("button", { cls: "rnomo-collection-progress-step", attr: { type: "button", "aria-label": t("collection.progress.increase") }, text: "+" });
+		setText(progressControls.createSpan({ cls: "rnomo-collection-progress-step-label" }), `±${step}`);
 		decrease.disabled = record.current <= 0 || options.onProgressDelta === undefined;
 		increase.disabled = options.onProgressDelta === undefined || record.total !== null && record.current >= record.total;
-		const runDelta = (delta: -1 | 1, button: HTMLButtonElement): void => {
+		const progress = card.createDiv({ cls: "rnomo-collection-progress-track" });
+		const progressFill = progress.createDiv({ cls: "rnomo-collection-progress-fill" });
+		progressFill.style.width = `${Math.round(progressRatio(record) * 100)}%`;
+		const runDelta = (delta: number, button: HTMLButtonElement): void => {
 			if (options.onProgressDelta === undefined || button.disabled) return;
 			decrease.disabled = true;
 			increase.disabled = true;
-			void options.onProgressDelta(record, delta).then(options.onChanged).catch(error => {
+			void options.onProgressDelta(record, delta).then(updated => {
+				setText(value, `${updated.current}${updated.total === null ? "" : ` / ${updated.total}`} ${updated.unit}`.trim());
+				progressFill.style.width = `${Math.round(progressRatio(updated) * 100)}%`;
+				decrease.disabled = updated.current <= 0;
+				increase.disabled = updated.total !== null && updated.current >= updated.total;
+			}).catch(error => {
 				new Notice(`${t("collection.error")} ${String(error)}`);
 				decrease.disabled = record.current <= 0;
 				increase.disabled = record.total !== null && record.current >= record.total;
 			});
 		};
-		decrease.addEventListener("click", () => runDelta(-1, decrease));
-		increase.addEventListener("click", () => runDelta(1, increase));
-		const progress = card.createDiv({ cls: "rnomo-collection-progress-track" });
-		progress.createDiv({ cls: "rnomo-collection-progress-fill" }).style.width = `${Math.round(progressRatio(record) * 100)}%`;
+		decrease.addEventListener("click", () => runDelta(-step, decrease));
+		increase.addEventListener("click", () => runDelta(step, increase));
 		setText(card.createDiv({ cls: "rnomo-collection-card-note" }), record.note || t("collection.noNote"));
 		if (record.tags.length > 0) setText(card.createDiv({ cls: "rnomo-collection-tags" }), tagsText(record.tags));
 	} else if (record.kind === "review") {
