@@ -4224,6 +4224,7 @@ export class KnomoView extends ItemView {
 		if (this.preservingReadonlyMemoPresentation) return;
 		if (!["all", "things", "review"].includes(this.activeNav)) this.clearLoadingIndicators("cards");
 		if (this.activeNav !== "record-stats") this.clearLoadingIndicators("stats");
+		if (this.renderCollectionCardFlowIfActive()) return;
 		const lifecycleKey = this.getCardFlowDecorationLifecycleKey();
 		const presentationChanged = this.recentLifecycleKey !== "" && this.recentLifecycleKey !== lifecycleKey;
 		this.recentLifecycleKey = lifecycleKey;
@@ -4235,16 +4236,6 @@ export class KnomoView extends ItemView {
 		}
 		if (changeIntent === "view-scope-change") {
 			this.forceRebuildCardFlow(changeIntent);
-			return;
-		}
-		if (isCollectionNav(this.activeNav) && this.cardFlowEl !== null) {
-			renderCollectionPage({
-				app: this.app,
-				container: this.cardFlowEl,
-				kind: this.activeNav === "progress" ? "progress" : this.activeNav === "reviews" ? "review" : "inventory",
-				service: this.collectionRecordService,
-				onChanged: () => this.renderCardFlow(null, "content-change"),
-			});
 			return;
 		}
 		if (this.deferMobileCardFlowRender(preserveCardMemoId, false, changeIntent)) {
@@ -4272,6 +4263,20 @@ export class KnomoView extends ItemView {
 		}
 		this.clearLoadingIndicators("cards");
 		this.syncCardFlowPresentation(presentation, preserveCardMemoId);
+	}
+
+	private renderCollectionCardFlowIfActive(): boolean {
+		if (!isCollectionNav(this.activeNav)) return false;
+		const container = this.cardFlowEl;
+		if (container === null || !container.isConnected) return true;
+		renderCollectionPage({
+			app: this.app,
+			container,
+			kind: this.activeNav === "progress" ? "progress" : this.activeNav === "reviews" ? "review" : "inventory",
+			service: this.collectionRecordService,
+			onChanged: () => this.renderCardFlow(null, "content-change"),
+		});
+		return true;
 	}
 
 	private renderRecordStatsPage(force = false): void {
@@ -4568,6 +4573,7 @@ export class KnomoView extends ItemView {
 		if (this.preservingReadonlyMemoPresentation) return;
 		if (!["all", "things", "review"].includes(this.activeNav)) this.clearLoadingIndicators("cards");
 		if (this.activeNav !== "record-stats") this.clearLoadingIndicators("stats");
+		if (this.renderCollectionCardFlowIfActive()) return;
 		if (this.deferMobileCardFlowRender(null, true, changeIntent)) {
 			return;
 		}
