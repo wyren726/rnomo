@@ -23,6 +23,7 @@ interface CollectionPageOptions {
 	kind: "progress" | "review" | "inventory";
 	service: CollectionRecordService;
 	onChanged: () => void;
+	onProgressDelta?: (record: ProgressRecord, delta: -1 | 1) => Promise<void>;
 }
 
 interface FieldRefs {
@@ -160,7 +161,25 @@ function renderRecordCard(container: HTMLElement, options: CollectionPageOptions
 	if (record.kind === "progress") {
 		const meta = card.createDiv({ cls: "rnomo-collection-card-meta" });
 		setText(meta.createSpan({ cls: "rnomo-collection-status" }), t(`collection.progress.status.${record.status}`));
-		setText(meta.createSpan(), `${record.current}${record.total === null ? "" : ` / ${record.total}`} ${record.unit}`.trim());
+		const progressControls = card.createDiv({ cls: "rnomo-collection-progress-controls" });
+		const decrease = progressControls.createEl("button", { cls: "rnomo-collection-progress-step", attr: { type: "button", "aria-label": t("collection.progress.decrease") }, text: "−" });
+		const value = progressControls.createDiv({ cls: "rnomo-collection-progress-value" });
+		setText(value, `${record.current}${record.total === null ? "" : ` / ${record.total}`} ${record.unit}`.trim());
+		const increase = progressControls.createEl("button", { cls: "rnomo-collection-progress-step", attr: { type: "button", "aria-label": t("collection.progress.increase") }, text: "+" });
+		decrease.disabled = record.current <= 0 || options.onProgressDelta === undefined;
+		increase.disabled = options.onProgressDelta === undefined || record.total !== null && record.current >= record.total;
+		const runDelta = (delta: -1 | 1, button: HTMLButtonElement): void => {
+			if (options.onProgressDelta === undefined || button.disabled) return;
+			decrease.disabled = true;
+			increase.disabled = true;
+			void options.onProgressDelta(record, delta).then(options.onChanged).catch(error => {
+				new Notice(`${t("collection.error")} ${String(error)}`);
+				decrease.disabled = record.current <= 0;
+				increase.disabled = record.total !== null && record.current >= record.total;
+			});
+		};
+		decrease.addEventListener("click", () => runDelta(-1, decrease));
+		increase.addEventListener("click", () => runDelta(1, increase));
 		const progress = card.createDiv({ cls: "rnomo-collection-progress-track" });
 		progress.createDiv({ cls: "rnomo-collection-progress-fill" }).style.width = `${Math.round(progressRatio(record) * 100)}%`;
 		setText(card.createDiv({ cls: "rnomo-collection-card-note" }), record.note || t("collection.noNote"));

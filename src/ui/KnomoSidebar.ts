@@ -13,6 +13,10 @@ interface KnomoSidebarOptions {
 	sidebarMinWidth: number;
 	sidebarMaxWidth: number;
 	timeBuoyEnabled?: boolean;
+	navOrder?: readonly string[];
+	tagOrder?: readonly string[];
+	onNavOrderChanged?: (order: string[]) => void;
+	onTagOrderChanged?: (order: string[]) => void;
 	createHiddenText: (container: HTMLElement, id: string, text: string) => string;
 	createIconButton: (
 		container: HTMLElement,
@@ -35,6 +39,8 @@ export interface RenderSidebarTagsOptions {
 	activeTagKey: string | null;
 	expandedTagGroups: ReadonlySet<string>;
 	emptyText: string;
+	tagOrder?: readonly string[];
+	onTagOrderChanged?: (order: string[]) => void;
 }
 
 export interface SidebarDragState {
@@ -62,8 +68,8 @@ export function renderKnomoSidebar(sidebar: HTMLElement, options: KnomoSidebarOp
 		cls: "knomo-nav",
 		attr: { "aria-labelledby": navLabelId },
 	});
-	for (const item of getSidebarNavItems(options.timeBuoyEnabled === true)) {
-		renderSidebarNavButton(nav, item);
+	for (const item of orderItems(getSidebarNavItems(options.timeBuoyEnabled === true), options.navOrder)) {
+		renderSidebarNavButton(nav, item, options.onNavOrderChanged);
 	}
 
 	const allTagSection = sidebar.createDiv({ cls: "knomo-tag-section" });
@@ -147,8 +153,8 @@ export function renderSidebarTags(container: HTMLElement | null, tags: TagSummar
 		container.createDiv({ cls: "knomo-muted-text", text: options.emptyText });
 		return;
 	}
-	for (const tag of tree) {
-		renderTagTreeNode(container, tag, options);
+	for (const tag of orderItems(tree, options.tagOrder, tag => tag.key)) {
+		renderTagTreeNode(container, tag, options, options.onTagOrderChanged, true);
 	}
 }
 
@@ -166,7 +172,7 @@ export function syncSidebarNavButtons(rootEl: HTMLElement | null, activeNav: Sid
 	});
 }
 
-function renderSidebarNavButton(container: HTMLElement, item: SidebarNavItem): HTMLButtonElement {
+function renderSidebarNavButton(container: HTMLElement, item: SidebarNavItem, onOrderChanged?: (order: string[]) => void): HTMLButtonElement {
 	const button = container.createEl("button", {
 		cls: "knomo-nav-button",
 		attr: {
@@ -175,14 +181,55 @@ function renderSidebarNavButton(container: HTMLElement, item: SidebarNavItem): H
 			"data-nav": item.nav,
 		},
 	});
+	if (onOrderChanged) {
+		button.draggable = true;
+		button.addEventListener("dragstart", event => {
+			event.dataTransfer?.setData("text/plain", item.nav);
+			button.addClass("is-dragging");
+		});
+		button.addEventListener("dragend", () => button.removeClass("is-dragging"));
+		button.addEventListener("dragover", event => event.preventDefault());
+		button.addEventListener("drop", event => {
+			event.preventDefault();
+			const dragged = event.dataTransfer?.getData("text/plain");
+			if (!dragged || dragged === item.nav) return;
+			const buttons = Array.from(button.parentElement?.querySelectorAll<HTMLElement>("[data-nav]") ?? []);
+			const source = buttons.find(candidate => candidate.getAttribute("data-nav") === dragged);
+			if (!source) return;
+			button.parentElement?.insertBefore(source, button);
+			const reordered = Array.from(button.parentElement?.querySelectorAll<HTMLElement>("[data-nav]") ?? []);
+			onOrderChanged(reordered.map(candidate => candidate.getAttribute("data-nav") ?? "").filter(Boolean));
+		});
+	}
 	setIcon(button.createSpan({ cls: "knomo-button-icon" }), item.icon);
 	button.createSpan({ cls: "knomo-button-label", text: item.label });
 	return button;
 }
 
-function renderTagTreeNode(container: HTMLElement, tag: TagTreeNode, options: RenderSidebarTagsOptions): void {
+function renderTagTreeNode(container: HTMLElement, tag: TagTreeNode, options: RenderSidebarTagsOptions, onOrderChanged?: (order: string[]) => void, sortable = false): void {
 	const collapsed = tag.children.length > 0 && !options.expandedTagGroups.has(tag.key);
 	const node = container.createDiv({ cls: collapsed ? "knomo-tag-node is-collapsed" : "knomo-tag-node" });
+	node.setAttr("data-sort-key", tag.key);
+	if (sortable && onOrderChanged) {
+		node.draggable = true;
+		node.addEventListener("dragstart", event => {
+			event.dataTransfer?.setData("text/plain", tag.key);
+			node.addClass("is-dragging");
+	});
+		node.addEventListener("dragend", () => node.removeClass("is-dragging"));
+		node.addEventListener("dragover", event => event.preventDefault());
+		node.addEventListener("drop", event => {
+		event.preventDefault();
+		const dragged = event.dataTransfer?.getData("text/plain");
+		if (!dragged || dragged === tag.key) return;
+		const siblings = Array.from(node.parentElement?.children ?? []).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement && candidate.hasAttribute("data-sort-key"));
+		const source = siblings.find(candidate => candidate.getAttribute("data-sort-key") === dragged);
+		if (!source) return;
+		node.parentElement?.insertBefore(source, node);
+		const reordered = Array.from(node.parentElement?.children ?? []).filter((candidate): candidate is HTMLElement => candidate instanceof HTMLElement && candidate.hasAttribute("data-sort-key"));
+		onOrderChanged(reordered.map(candidate => candidate.getAttribute("data-sort-key") ?? "").filter(Boolean));
+	});
+	}
 	const row = node.createDiv({ cls: "knomo-tag-row" });
 	const button = row.createEl("button", {
 		cls: options.activeTagKey === tag.key ? "knomo-tag-nav is-active" : "knomo-tag-nav",
@@ -216,4 +263,13 @@ function renderTagTreeNode(container: HTMLElement, tag: TagTreeNode, options: Re
 			renderTagTreeNode(children, child, options);
 		}
 	}
+}
+
+function orderItems<T>(items: readonly T[], order: readonly string[] | undefined, keyOf: (item: T) => string = (item) => {
+		if (typeof item === "object" && item !== null && "nav" in item) return String((item as { nav: string }).nav);
+		return String(item);
+	}): T[] {
+		if (!order || order.length === 0) return [...items];
+		const positions = new Map(order.map((key, index) => [key, index]));
+		return [...items].sort((left, right) => (positions.get(keyOf(left)) ?? Number.MAX_SAFE_INTEGER) - (positions.get(keyOf(right)) ?? Number.MAX_SAFE_INTEGER));
 }

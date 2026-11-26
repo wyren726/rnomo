@@ -111,6 +111,7 @@ export class KnomoSettingTab extends PluginSettingTab {
 				t("settings.monthly.heading"), t("settings.files.heading"),
 				t("settings.dailyHeading.name"), t("settings.insertPosition.name"),
 				t("settings.timeFormat.name"), t("settings.timeBuoy.name"),
+				t("settings.progressMemo.name"), t("settings.progressMemo.suffix.name"),
 				t("settings.toolbar.name"), t("settings.recentTimeFlow.name"),
 				t("settings.reduceGlass.name"),
 				t("settings.dateOrder.name"), t("settings.monthlyFileFormat.name"),
@@ -251,6 +252,10 @@ export class KnomoSettingTab extends PluginSettingTab {
 			.setDesc(t("settings.insertPosition.desc")));
 		this.renderTimeFormatSetting(new Setting(card).setName(t("settings.timeFormat.name"))
 			.setDesc(t("settings.timeFormat.desc")));
+		this.renderProgressMemoSetting(new Setting(card).setName(t("settings.progressMemo.name"))
+			.setDesc(t("settings.progressMemo.desc")));
+		this.renderProgressMemoSuffixSetting(new Setting(card).setName(t("settings.progressMemo.suffix.name"))
+			.setDesc(t("settings.progressMemo.suffix.desc")));
 		this.renderTimeBuoySetting(new Setting(card).setName(t("settings.timeBuoy.name"))
 			.setDesc(t("settings.timeBuoy.desc")));
 		this.renderToolbarSetting(new Setting(card).setName(t("settings.toolbar.name"))
@@ -474,6 +479,36 @@ export class KnomoSettingTab extends PluginSettingTab {
 				void this.settingsService.updateSettings({
 					memoTimeFormat: value as MemoTimeFormat,
 				});
+			});
+		});
+	}
+
+	private renderProgressMemoSetting(setting: Setting): void {
+		setting.settingEl.addClass("knomo-settings-toggle-row");
+		setting.addToggle((toggle) => {
+			toggle.setValue(this.settingsService.getSettings().progressMemoEnabled);
+			toggle.onChange(async (value) => {
+				try {
+					await this.settingsService.updateSettings({ progressMemoEnabled: value });
+				} catch {
+					toggle.setValue(this.settingsService.getSettings().progressMemoEnabled);
+					new Notice(t("error.saveFailed"));
+				}
+			});
+		});
+	}
+
+	private renderProgressMemoSuffixSetting(setting: Setting): void {
+		setting.addText((text) => {
+			text.setValue(this.settingsService.getSettings().progressMemoSuffix);
+			text.setPlaceholder("Keep going!");
+			text.onChange(async (value) => {
+				try {
+					await this.settingsService.updateSettings({ progressMemoSuffix: value });
+				} catch {
+					text.setValue(this.settingsService.getSettings().progressMemoSuffix);
+					new Notice(t("error.saveFailed"));
+				}
 			});
 		});
 	}

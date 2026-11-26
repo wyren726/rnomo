@@ -45,7 +45,7 @@ import type { VaultTagIndex } from "../services/VaultTagIndex";
 import { RecordStatsService } from "../services/RecordStatsService";
 import type { RecordStatsView } from "../services/RecordStatsService";
 import type { SettingsService } from "../services/SettingsService";
-import { CollectionRecordService } from "../services/CollectionRecordService";
+import { CollectionRecordService, type ProgressInput, type ProgressRecord } from "../services/CollectionRecordService";
 import type { ShuffleDayService } from "../services/ShuffleDayService";
 import type { CatalogCoverage, CatalogQueryFilter, CatalogRefreshResult } from "../types/catalog";
 import type {
@@ -2477,6 +2477,9 @@ export class KnomoView extends ItemView {
 			sidebarMinWidth: SIDEBAR_MIN_WIDTH,
 			sidebarMaxWidth: SIDEBAR_MAX_WIDTH,
 			timeBuoyEnabled: this.settingsService.getSettings().timeBuoyEnabled,
+			navOrder: this.settingsService.getSettings().sidebarNavOrder,
+			onNavOrderChanged: order => { void this.settingsService.updateSettings({ sidebarNavOrder: order }); },
+			onTagOrderChanged: order => { void this.settingsService.updateSettings({ sidebarTagOrder: order }); },
 			createHiddenText: (container, id, text) => this.createHiddenText(container, id, text),
 			createIconButton: (container, icon, ariaLabel, cls, action, showTooltip) => {
 				return this.createIconButton(container, icon, ariaLabel, cls, action, showTooltip);
@@ -4096,6 +4099,8 @@ export class KnomoView extends ItemView {
 			activeTagKey: this.activeTagKey,
 			expandedTagGroups: this.expandedTagGroups,
 			emptyText: t("tags.empty"),
+			tagOrder: this.settingsService.getSettings().sidebarTagOrder,
+			onTagOrderChanged: order => { void this.settingsService.updateSettings({ sidebarTagOrder: order }); },
 		});
 		if (this.libraryIndexError) this.renderTagIndexFailure();
 		this.sidebarTagRender = { container: this.allTagsEl, key, firstChild: this.allTagsEl.firstChild };
@@ -4274,9 +4279,42 @@ export class KnomoView extends ItemView {
 			container,
 			kind: this.activeNav === "progress" ? "progress" : this.activeNav === "reviews" ? "review" : "inventory",
 			service: this.collectionRecordService,
+			onProgressDelta: (record, delta) => this.handleProgressDelta(record, delta),
 			onChanged: () => this.renderCardFlow(null, "content-change"),
 		});
 		return true;
+	}
+
+	private async handleProgressDelta(record: ProgressRecord, delta: -1 | 1): Promise<void> {
+		const next = record.current + delta;
+		if (next < 0 || record.total !== null && next > record.total) return;
+		const input: ProgressInput = {
+			title: record.title,
+			status: record.status,
+			current: next,
+			total: record.total,
+			unit: record.unit,
+			tags: record.tags,
+			link: record.link,
+			note: record.note,
+		};
+		await this.collectionRecordService.update(record, input);
+		const settings = this.settingsService.getSettings();
+		if (!settings.progressMemoEnabled) return;
+		const suffix = settings.progressMemoSuffix.trim();
+		const content = t("collection.progress.memo", {
+			title: record.title,
+			delta: delta > 0 ? "+1" : "-1",
+			from: record.current,
+			to: next,
+			unit: record.unit ? ` ${record.unit}` : "",
+			suffix: suffix ? ` ${suffix}` : "",
+		}).trim();
+		try {
+			await this.memoCommandService.create(content);
+		} catch (error) {
+			new Notice(`${t("collection.progress.memoFailed")} ${String(error)}`);
+		}
 	}
 
 	private renderRecordStatsPage(force = false): void {
