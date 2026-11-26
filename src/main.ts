@@ -42,7 +42,7 @@ import { SettingsService } from "./services/SettingsService";
 import { ShuffleDayService } from "./services/ShuffleDayService";
 import { ViewRefreshScheduler } from "./services/ViewRefreshScheduler";
 import { VaultTagIndex } from "./services/VaultTagIndex";
-import { KNOMO_LOGO_ICON, registerKnomoIcons } from "./icons";
+import { RNOMO_LOGO_ICON, registerKnomoIcons } from "./icons";
 import { t } from "./i18n";
 import { logContinuationFailure } from "./utils/continuationDiagnostics";
 import { KnomoSettingTab } from "./ui/KnomoSettingTab";
@@ -491,7 +491,7 @@ export default class KnomoPlugin extends Plugin {
 			defaultMod: false,
 		});
 
-		this.addRibbonIcon(KNOMO_LOGO_ICON, t("app.openKnomo"), () => {
+		this.addRibbonIcon(RNOMO_LOGO_ICON, t("app.openKnomo"), () => {
 			void this.activateView();
 		});
 

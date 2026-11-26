@@ -1,12 +1,14 @@
-# Knomo
+# Rnomo
 
 English | [简体中文](./README.zh-CN.md)
 
 > A local-first Memos entry for Obsidian: quick capture, Daily Note context, monthly Markdown collection, card review, and mobile-friendly input.
 
-Knomo is a memo-first capture plugin for Obsidian. It helps you write down fragmented thoughts quickly while keeping the content inside your own Vault, in regular Markdown files that remain readable and editable outside the plugin.
+> Rnomo is an independently maintained development fork based on the original Knomo project.
 
-Knomo is built around a simple idea:
+Rnomo is a memo-first capture plugin for Obsidian. It helps you write down fragmented thoughts quickly while keeping the content inside your own Vault, in regular Markdown files that remain readable and editable outside the plugin.
+
+Rnomo is built around a simple idea:
 
 - Write quickly, without deciding the final note structure first;
 - Keep every memo in the context of the day through Daily Notes;
@@ -14,7 +16,7 @@ Knomo is built around a simple idea:
 - Use cards, filters, search, references, images, tasks, and statistics to rediscover and reuse what you wrote;
 - Stay local-first and non-destructive.
 
-Knomo does not try to replace Obsidian's files, folders, tags, links, backlinks, or Daily Notes. It provides a lighter capture layer on top of Obsidian's Markdown workflow.
+Rnomo does not try to replace Obsidian's files, folders, tags, links, backlinks, or Daily Notes. It provides a lighter capture layer on top of Obsidian's Markdown workflow.
 
 ---
 
@@ -35,17 +37,17 @@ Knomo does not try to replace Obsidian's files, folders, tags, links, backlinks,
 
 ---
 
-## Why Knomo?
+## Why Rnomo?
 
 Obsidian is excellent for long-term knowledge management, but many thoughts do not arrive as polished notes. They arrive as fragments: a sentence from reading, a meeting idea, a task, a screenshot, a link, a small decision, a feeling, or a half-formed connection.
 
 If every fragment requires opening the right file, finding the right heading, choosing the right folder, and deciding the final structure, many of them never get written down.
 
-Knomo gives those fragments a low-friction entry point:
+Rnomo gives those fragments a low-friction entry point:
 
-1. **Capture first** — open Knomo, write a memo, save it.
+1. **Capture first** — open Rnomo, write a memo, save it.
 2. **Keep daily context** — the memo is written to the Daily Note of the day.
-3. **Collect by month** — Knomo maintains monthly Memos Markdown files for centralized browsing.
+3. **Collect by month** — Rnomo maintains monthly Memos Markdown files for centralized browsing.
 4. **Review as cards** — use the card flow, filters, search, and statistics to revisit what you wrote.
 5. **Return to Markdown** — every memo remains part of your local Obsidian workflow.
 
@@ -55,11 +57,11 @@ Knomo gives those fragments a low-friction entry point:
 
 ### Memo-first
 
-Knomo treats the memo as the first capture unit. You can record first, then later connect, tag, search, reference, develop, or move content into larger notes.
+Rnomo treats the memo as the first capture unit. You can record first, then later connect, tag, search, reference, develop, or move content into larger notes.
 
 ### Daily Note + Monthly Memos
 
-Knomo's core workflow has two Markdown layers:
+Rnomo's core workflow has two Markdown layers:
 
 - **Daily Note**: preserves when and where the memo happened;
 - **Monthly Memos file**: collects memos into a month-level stream for browsing and review.
@@ -70,19 +72,19 @@ Monthly Memos answer: **What did I write down this month?**
 
 ### Local-first
 
-Memo content is stored in your Obsidian Vault. Knomo does not require an account, does not rely on an external server, and does not actively upload your notes.
+Memo content is stored in your Obsidian Vault. Rnomo does not require an account, does not rely on an external server, and does not actively upload your notes.
 
 ### Markdown-friendly
 
-Knomo tries to support and preserve common Obsidian / Markdown syntax, including tags, internal links, Markdown links, URLs, images, lists, task lists, block references, quotes, headings, and code blocks.
+Rnomo tries to support and preserve common Obsidian / Markdown syntax, including tags, internal links, Markdown links, URLs, images, lists, task lists, block references, quotes, headings, and code blocks.
 
 ### Non-destructive
 
-Knomo does not turn your Daily Notes into a private database. It writes memo-shaped Markdown and keeps the original content readable.
+Rnomo does not turn your Daily Notes into a private database. It writes memo-shaped Markdown and keeps the original content readable.
 
 ### Mobile-friendly
 
-Knomo treats Obsidian mobile as a core use case, not as a smaller desktop window. The composer, keyboard behavior, touch targets, sidebar, search, and card browsing are optimized for mobile capture.
+Rnomo treats Obsidian mobile as a core use case, not as a smaller desktop window. The composer, keyboard behavior, touch targets, sidebar, search, and card browsing are optimized for mobile capture.
 
 ---
 
@@ -90,7 +92,7 @@ Knomo treats Obsidian mobile as a core use case, not as a smaller desktop window
 
 ### Quick capture
 
-Write and save memos directly inside Knomo without opening a Markdown file first.
+Write and save memos directly inside Rnomo without opening a Markdown file first.
 
 Good for:
 
@@ -106,9 +108,9 @@ Good for:
 
 ### Quick commands
 
-Search for Knomo in Obsidian's command palette to run **New memo**, **Random revisit**, **Shuffle day**, **Time buoy**, **Record statistics**, or **On this day**. You can assign your own shortcuts in Obsidian's **Hotkeys** settings.
+Search for Rnomo in Obsidian's command palette to run **New memo**, **Random revisit**, **Shuffle day**, **Time buoy**, **Record statistics**, or **On this day**. You can assign your own shortcuts in Obsidian's **Hotkeys** settings.
 
-Commands reuse an open Knomo view or open one when needed. **New memo** keeps the current draft; **Time buoy** requires the feature to be enabled in Knomo settings.
+Commands reuse an open Rnomo view or open one when needed. **New memo** keeps the current draft; **Time buoy** requires the feature to be enabled in Rnomo settings.
 
 ---
 
@@ -118,22 +120,22 @@ The Composer displays Markdown formatting while revealing the relevant source as
 
 On Obsidian 1.14+, the Composer displays six highlight colors from a leading 🔴, 🟠, 🟡, 🟢, 🔵, or 🟣 inside `==...==`. Editing reveals the complete source; removing highlight formatting preserves the original body, including the emoji. Older hosts retain the ordinary highlight display. Card text, input, and supporting UI text use the host's preferred sizes where available, including system text scaling on Obsidian 1.14 mobile.
 
-Within the same open Knomo view, closing and reopening the Composer keeps your draft. Editing an existing memo temporarily sets aside the new-memo draft and restores its text, references, selection, and scroll position after you save or cancel the edit. A failed save keeps your editing content available.
+Within the same open Rnomo view, closing and reopening the Composer keeps your draft. Editing an existing memo temporarily sets aside the new-memo draft and restores its text, references, selection, and scroll position after you save or cancel the edit. A failed save keeps your editing content available.
 
-Since [1.12.7](release-notes/1.12.7.md), reopening Knomo after closing its view or restarting Obsidian can restore unfinished new and edited drafts, including text, references, selection, scroll position, and completed image attachments. Drafts stay on the current device, are isolated by vault, and do not sync between devices with the vault. A recovered draft still needs to be saved to Daily to become a Memo.
+Since [1.12.7](release-notes/1.12.7.md), reopening Rnomo after closing its view or restarting Obsidian can restore unfinished new and edited drafts, including text, references, selection, scroll position, and completed image attachments. Drafts stay on the current device, are isolated by vault, and do not sync between devices with the vault. A recovered draft still needs to be saved to Daily to become a Memo.
 
 Recovery has these limits:
 
 - A crash or forced shutdown may lose recent input that has not yet been stored. Unavailable, damaged, or cleared local storage can also prevent recovery. If local draft storage fails, keep the view open or copy your text; saving to Daily is still available.
 - Unfinished image processing is not recovered. Completed image attachments are checked again on recovery; if an attachment is missing or its link resolves differently, follow the notice to check or reinsert it. Your draft text is kept.
-- If the original edit target changed or is unavailable, Knomo keeps the text and pauses saving. Refresh the list and choose **Edit** on the intended Memo again.
-- If a Daily write is unconfirmed, check Daily before deciding whether to retry. Knomo keeps the pending draft and does not resubmit it automatically.
+- If the original edit target changed or is unavailable, Rnomo keeps the text and pauses saving. Refresh the list and choose **Edit** on the intended Memo again.
+- If a Daily write is unconfirmed, check Daily before deciding whether to retry. Rnomo keeps the pending draft and does not resubmit it automatically.
 
 ---
 
 ### Daily Note writing
 
-Knomo depends on Obsidian's core **Daily Notes** plugin.
+Rnomo depends on Obsidian's core **Daily Notes** plugin.
 
 New memos are written under a configured heading in the Daily Note of the day. The default heading is:
 
@@ -150,18 +152,18 @@ Example:
 - 21:10:03 This paragraph from a book is worth revisiting #reading
 ```
 
-You can configure the heading, insertion position, and time format in Knomo settings.
+You can configure the heading, insertion position, and time format in Rnomo settings.
 
 ---
 
 ### Monthly Memos files
 
-In addition to Daily Notes, Knomo automatically maintains monthly Memos Markdown files.
+In addition to Daily Notes, Rnomo automatically maintains monthly Memos Markdown files.
 
 Default example:
 
 ```md
-# Knomo/Memos-2026-06.md
+# Rnomo/Memos-2026-06.md
 
 ## [[2026-06-21]]
 
@@ -179,7 +181,7 @@ Monthly files make it easier to browse a long memo stream without losing the dai
 
 ### Card-based browsing
 
-Knomo displays memos as cards instead of forcing you to read the raw Markdown stream.
+Rnomo displays memos as cards instead of forcing you to read the raw Markdown stream.
 
 Cards are useful for:
 
@@ -195,7 +197,7 @@ Cards are useful for:
 
 ### Filters and search
 
-Knomo supports multiple ways to narrow down your memo stream:
+Rnomo supports multiple ways to narrow down your memo stream:
 
 - all notes;
 - **Things** — memos containing Markdown checkboxes;
@@ -221,13 +223,13 @@ Ordinary text uses normalized, contiguous matching: `project review` requires th
 
 Search highlights matches that can be reliably located in the card's currently visible body. A result may have no highlight when only a link target, image path, or content outside the preview matches.
 
-Knomo uses a rebuildable local Catalog for historical queries, filters, and statistics, and loads memo cards in pages. Each device builds its own Catalog from Daily Notes; the index itself does not need to be synced.
+Rnomo uses a rebuildable local Catalog for historical queries, filters, and statistics, and loads memo cards in pages. Each device builds its own Catalog from Daily Notes; the index itself does not need to be synced.
 
 ---
 
 ### Tags, links, and backlinks-friendly Markdown
 
-Knomo recognizes tags and links written inside memos.
+Rnomo recognizes tags and links written inside memos.
 
 ```md
 - 16:20:00 Improve the mobile composer spacing #knomo #interaction
@@ -235,13 +237,13 @@ Knomo recognizes tags and links written inside memos.
 - 20:10:00 Reference: https://obsidian.md
 ```
 
-Knomo preserves the original Markdown instead of replacing it with a private format.
+Rnomo preserves the original Markdown instead of replacing it with a private format.
 
 ---
 
 ### Reference cards
 
-When a memo should respond to or build on another memo, Knomo can create a reference from the card action menu.
+When a memo should respond to or build on another memo, Rnomo can create a reference from the card action menu.
 
 This is useful when you want to:
 
@@ -250,7 +252,7 @@ This is useful when you want to:
 - connect scattered fragments over time;
 - keep the original source memo traceable.
 
-References use Obsidian-friendly links or block references so the connection remains meaningful outside Knomo.
+References use Obsidian-friendly links or block references so the connection remains meaningful outside Rnomo.
 
 ---
 
@@ -258,9 +260,9 @@ References use Obsidian-friendly links or block references so the connection rem
 
 Paste screenshots or clipboard images directly into the Composer, or use the image picker. Image paste supports PNG, JPEG, GIF, and WebP when the clipboard supplies image data without accompanying text or HTML. Mobile clipboard support depends on the system and input method; the image picker remains available.
 
-Images are saved to your Vault using Obsidian's attachment location and link-format settings, then inserted as Markdown embeds. Knomo keeps usable original filenames, adjusts unsafe names, and avoids overwriting existing attachments. You can keep typing while images are processed; wait for processing to finish before sending the memo. Cancelling an insertion or undoing an embed does not delete an attachment already saved to the Vault.
+Images are saved to your Vault using Obsidian's attachment location and link-format settings, then inserted as Markdown embeds. Rnomo keeps usable original filenames, adjusts unsafe names, and avoids overwriting existing attachments. You can keep typing while images are processed; wait for processing to finish before sending the memo. Cancelling an insertion or undoing an embed does not delete an attachment already saved to the Vault.
 
-Knomo supports lightweight image previews in memo cards.
+Rnomo supports lightweight image previews in memo cards.
 
 Supported use cases include:
 
@@ -272,13 +274,13 @@ Supported use cases include:
 
 Double-click the image to enlarge it, then drag to pan. On mobile, double-tap or pinch with two fingers; panning a zoomed image does not switch images. Double-click or double-tap again to fit the image, or pinch inward to zoom out. If loading fails, retry directly in the preview.
 
-The goal is not to become an image manager. Knomo only provides compact previews so image-based memos remain easy to browse.
+The goal is not to become an image manager. Rnomo only provides compact previews so image-based memos remain easy to browse.
 
 ---
 
 ### Task lists and checkboxes
 
-Knomo supports Markdown task lists inside memos.
+Rnomo supports Markdown task lists inside memos.
 
 Example:
 
@@ -296,7 +298,7 @@ Open **Things** from the sidebar or view selector to see memos with supported ch
 
 ### Record statistics
 
-Knomo includes a record statistics view for understanding your memo habits and reviewing your writing rhythm.
+Rnomo includes a record statistics view for understanding your memo habits and reviewing your writing rhythm.
 
 It can show:
 
@@ -319,7 +321,7 @@ Statistics are designed for review and navigation, not for turning writing into 
 
 ### Random revisit and review
 
-Knomo includes lightweight review entry points such as random revisit and date-based review. They are designed to help old fragments meet the present again without requiring AI or external services.
+Rnomo includes lightweight review entry points such as random revisit and date-based review. They are designed to help old fragments meet the present again without requiring AI or external services.
 
 Random revisit shows up to 10 eligible memos per group, including image-only and link-only notes. During the current view session, it favors memos outside the last three groups. With at least 20 stable candidates, consecutive full groups do not overlap; smaller pools repeat only as needed. Showing a card does not mark it as reviewed. Opening it successfully or explicitly marking it does, which lowers its selection weight for the next three calendar days.
 
@@ -331,9 +333,9 @@ A memo does not need to become useful immediately. Sometimes its value appears w
 
 Shuffle day brings back one complete day from at least seven days ago and displays that day's memos in chronological order. It favors varied dates and avoids immediately repeating recently shown days when possible.
 
-It first chooses among available time ranges, then chooses a day within that range. Days with more content receive a modest preference. Returning to either review view keeps its current results; use Shuffle to choose again. If review history cannot be saved, the selected day's content remains available and Knomo shows a notice.
+It first chooses among available time ranges, then chooses a day within that range. Days with more content receive a modest preference. Returning to either review view keeps its current results; use Shuffle to choose again. If review history cannot be saved, the selected day's content remains available and Rnomo shows a notice.
 
-Alongside the memo cards, Knomo summarizes the day's memo count, word count, tags, images, and links. Selection happens entirely from your local memo index, without AI or external services.
+Alongside the memo cards, Rnomo summarizes the day's memo count, word count, tags, images, and links. Selection happens entirely from your local memo index, without AI or external services.
 
 ---
 
@@ -341,13 +343,13 @@ Alongside the memo cards, Knomo summarizes the day's memo count, word count, tag
 
 Add `@YYYY-MM-DD` to a memo to make it surface on a chosen date. You can type the marker directly or use the date picker in the composer, then review buoys in **Today**, **Upcoming**, and **Past** views.
 
-The date marker remains part of the memo's Markdown content. Knomo only builds a local, removable, and rebuildable index for fast lookup; the index does not replace or rewrite the source memo in your Daily Note.
+The date marker remains part of the memo's Markdown content. Rnomo only builds a local, removable, and rebuildable index for fast lookup; the index does not replace or rewrite the source memo in your Daily Note.
 
 ---
 
 ### Trash, restore, and repair
 
-Knomo includes safer maintenance flows for day-to-day use:
+Rnomo includes safer maintenance flows for day-to-day use:
 
 - deleted memos can appear in Trash;
 - memos can be restored when possible;
@@ -361,7 +363,7 @@ Markdown remains the long-term trusted source. The plugin index is used to impro
 
 ### Responsive desktop layout
 
-Knomo adapts to the width of its own pane, making it suitable for side-by-side notes. At 780px and above, it uses the desktop sidebar layout; narrower panes use a compact header and a sidebar drawer contained within that pane. Close the drawer with its close button or Escape.
+Rnomo adapts to the width of its own pane, making it suitable for side-by-side notes. At 780px and above, it uses the desktop sidebar layout; narrower panes use a compact header and a sidebar drawer contained within that pane. Close the drawer with its close button or Escape.
 
 Resizing the pane preserves your draft, search state, and sidebar width and collapse preferences.
 
@@ -369,7 +371,7 @@ Resizing the pane preserves your draft, search state, and sidebar width and coll
 
 ### Mobile input experience
 
-Knomo has dedicated mobile interaction improvements:
+Rnomo has dedicated mobile interaction improvements:
 
 - touch-friendly quick create entry;
 - bottom composer designed for phone input;
@@ -381,13 +383,13 @@ Knomo has dedicated mobile interaction improvements:
 - mobile-friendly image preview;
 - adaptation for safe areas and Obsidian mobile navigation bars.
 
-Knomo's mobile goal is not just to open inside Obsidian mobile, but to make quick memo capture feel natural there.
+Rnomo's mobile goal is not just to open inside Obsidian mobile, but to make quick memo capture feel natural there.
 
 ---
 
 ### Theme compatibility
 
-Knomo uses Obsidian theme variables where possible and includes compatibility work for community themes such as Minimal.
+Rnomo uses Obsidian theme variables where possible and includes compatibility work for community themes such as Minimal.
 
 If you use a different theme and see spacing, color, contrast, or mobile layout issues, feedback is welcome.
 
@@ -397,14 +399,14 @@ If you use a different theme and see spacing, color, contrast, or mobile layout 
 
 ### Install from Obsidian Community Plugins
 
-Open the [Knomo community plugin page](https://community.obsidian.md/plugins/knomo), select **Add to Obsidian**, then **Install** and **Enable** in Obsidian.
+Open the [Rnomo community plugin page](https://community.obsidian.md/plugins/knomo), select **Add to Obsidian**, then **Install** and **Enable** in Obsidian.
 
 You can also install it from Obsidian Settings:
 
 1. Open Obsidian Settings;
 2. Go to **Community plugins**;
 3. Turn off Restricted Mode if needed;
-4. Select **Browse**, search for `Knomo`, and open its plugin page;
+4. Select **Browse**, search for `Rnomo`, and open its plugin page;
 5. Install and enable the plugin.
 
 ### Manual installation
@@ -423,8 +425,8 @@ If your Vault uses a custom configuration folder, replace `.obsidian` with that 
 
 3. Put the three files into the folder;
 4. Restart Obsidian;
-5. Enable Knomo in **Community plugins**;
-6. Run `Open Knomo` from the command palette.
+5. Enable Rnomo in **Community plugins**;
+6. Run `Open Rnomo` from the command palette.
 
 ---
 
@@ -432,29 +434,29 @@ If your Vault uses a custom configuration folder, replace `.obsidian` with that 
 
 ### 1. Enable Daily Notes
 
-Knomo requires Obsidian's core **Daily Notes** plugin.
+Rnomo requires Obsidian's core **Daily Notes** plugin.
 
-Before using Knomo, make sure:
+Before using Rnomo, make sure:
 
 - Daily Notes is enabled;
 - the Daily Notes folder is configured;
 - the date format is configured;
 - Obsidian can create Daily Note files normally.
 
-### 2. Open Knomo
+### 2. Open Rnomo
 
-You can open Knomo by:
+You can open Rnomo by:
 
 - clicking the Ribbon icon;
-- running `Open Knomo` from the command palette;
-- pinning the Knomo view to your workspace.
+- running `Open Rnomo` from the command palette;
+- pinning the Rnomo view to your workspace.
 
 ### 3. Create your first memo
 
 Write:
 
 ```text
-Today I started using Knomo to capture small thoughts #knomo
+Today I started using Rnomo to capture small thoughts #knomo
 ```
 
 After saving, the memo appears in the card flow and is written to the corresponding Markdown files.
@@ -474,7 +476,7 @@ After writing for a while, try:
 
 ## Obsidian URL shortcuts
 
-Open Knomo from iOS Shortcuts or another app using Obsidian's native URL handler. Enable Knomo in the target vault first. Replace the example Vault ID below with your own:
+Open Rnomo from iOS Shortcuts or another app using Obsidian's native URL handler. Enable Rnomo in the target vault first. Replace the example Vault ID below with your own:
 
 ```text
 obsidian://knomo?vault=ef6ca3e3b524d22f&command=open-view
@@ -488,7 +490,7 @@ obsidian://knomo?vault=ef6ca3e3b524d22f&command=on-this-day
 
 | Command | Behavior |
 | --- | --- |
-| `open-view` | Only open or focus Knomo, reusing the existing view |
+| `open-view` | Only open or focus Rnomo, reusing the existing view |
 | `new-memo` | Open the new Memo composer; keep the existing draft |
 | `random-revisit` | Random revisit |
 | `shuffle-day` | Shuffle day |
@@ -496,17 +498,17 @@ obsidian://knomo?vault=ef6ca3e3b524d22f&command=on-this-day
 | `record-stats` | Record statistics |
 | `on-this-day` | On this day |
 
-In iOS Shortcuts, add a **URL** action with the desired URL, followed by **Open URLs**. `new-memo` opens the writing interface; it does not save a Memo automatically. No command accepts Memo content through the URL. Missing, empty, or unknown `command` values do nothing and do not create a Knomo view.
+In iOS Shortcuts, add a **URL** action with the desired URL, followed by **Open URLs**. `new-memo` opens the writing interface; it does not save a Memo automatically. No command accepts Memo content through the URL. Missing, empty, or unknown `command` values do nothing and do not create a Rnomo view.
 
 Obsidian selects the vault before dispatching the custom action. `vault` accepts a vault name or ID; prefer the ID to avoid name changes or duplicate names. In the vault switcher, use **Copy vault ID** from the vault's context menu. IDs are local to the device's vault registration: obtain the ID separately on each device, and check it after removing/re-adding a vault. See [Obsidian URI documentation](https://help.obsidian.md/uri).
 
-For a name containing spaces or Chinese characters, encode the parameter value once, for example `obsidian://knomo?vault=%E5%B7%A5%E4%BD%9C%20%E7%AC%94%E8%AE%B0&command=open-view` for `工作 笔记`. To use the vault actually opened by Obsidian, omit `vault`: `obsidian://knomo?command=new-memo`. Knomo does not choose another vault, forward requests between vaults, or fall back to another Knomo instance when the target plugin is unavailable. Use only the documented parameters; Obsidian handles its own routing parameters before Knomo receives the request.
+For a name containing spaces or Chinese characters, encode the parameter value once, for example `obsidian://knomo?vault=%E5%B7%A5%E4%BD%9C%20%E7%AC%94%E8%AE%B0&command=open-view` for `工作 笔记`. To use the vault actually opened by Obsidian, omit `vault`: `obsidian://knomo?command=new-memo`. Rnomo does not choose another vault, forward requests between vaults, or fall back to another Rnomo instance when the target plugin is unavailable. Use only the documented parameters; Obsidian handles its own routing parameters before Rnomo receives the request.
 
-The plugin uses the official `registerObsidianProtocolHandler` API (available since Obsidian 0.11.0), so `minAppVersion` remains 1.11.0. The public callback API does not promise that `vault` will be retained: local inspection of Obsidian Desktop 1.13.7 confirms that the host selects a vault by name/ID and removes `vault` before dispatch. Knomo therefore relies on native routing and does not attempt to compare an ID with a vault name or read a private vault registry. Commands wait for workspace layout restoration, then use the existing view-opening and Quick Command controller paths.
+The plugin uses the official `registerObsidianProtocolHandler` API (available since Obsidian 0.11.0), so `minAppVersion` remains 1.11.0. The public callback API does not promise that `vault` will be retained: local inspection of Obsidian Desktop 1.13.7 confirms that the host selects a vault by name/ID and removes `vault` before dispatch. Rnomo therefore relies on native routing and does not attempt to compare an ID with a vault name or read a private vault registry. Commands wait for workspace layout restoration, then use the existing view-opening and Quick Command controller paths.
 
 ## Markdown Format
 
-Knomo uses simple Markdown that stays readable outside the plugin.
+Rnomo uses simple Markdown that stays readable outside the plugin.
 
 ### Single-line memo
 
@@ -567,7 +569,7 @@ Knomo uses simple Markdown that stays readable outside the plugin.
 
 ## Settings Overview
 
-Knomo settings include:
+Rnomo settings include:
 
 - Daily Note insertion heading;
 - new memo insertion position;
@@ -584,31 +586,31 @@ Knomo settings include:
 
 ## Data and Privacy
 
-Knomo's core principle is: **your data belongs to you**.
+Rnomo's core principle is: **your data belongs to you**.
 
 - Memo content is stored in your Obsidian Vault;
 - Daily Notes and monthly Memos files are regular Markdown files;
 - Markdown files can be read, backed up, synced, and migrated directly;
 - the plugin index improves browsing, filtering, statistics, and sync behavior;
 - Daily Notes are the source of truth for active memos; the local Catalog and monthly files can be rebuilt from them;
-- Knomo does not require an account;
-- Knomo does not rely on an external server;
-- Knomo does not actively upload your notes.
+- Rnomo does not require an account;
+- Rnomo does not rely on an external server;
+- Rnomo does not actively upload your notes.
 
 ---
 
 ## Data Safety Notes
 
-Knomo writes to Markdown files. To reduce risk:
+Rnomo writes to Markdown files. To reduce risk:
 
 - back up your Vault before first use;
 - make sure Obsidian Sync, Git, or other sync tools are working normally;
-- back up before migrating legacy Knomo data;
+- back up before migrating legacy Rnomo data;
 - check the original Markdown if the card flow looks inconsistent;
 - use repair / rebuild tools if the index becomes outdated;
 - treat Markdown files as the long-term trusted source.
 
-Knomo's goal is not to hide Markdown. It is to make Markdown easier to capture, browse, and reuse.
+Rnomo's goal is not to hide Markdown. It is to make Markdown easier to capture, browse, and reuse.
 
 ---
 
@@ -616,7 +618,7 @@ Knomo's goal is not to hide Markdown. It is to make Markdown easier to capture, 
 
 ### Daily fragmented capture
 
-Use Knomo as a quick input box inside Obsidian. Write first; organize later.
+Use Rnomo as a quick input box inside Obsidian. Write first; organize later.
 
 ### Reading excerpts
 
@@ -650,9 +652,9 @@ Use tags, search, Random revisit, Record statistics, and references to bring old
 
 ---
 
-## What Knomo Is Not
+## What Rnomo Is Not
 
-Knomo is not:
+Rnomo is not:
 
 - a replacement for Obsidian files or folders;
 - a cloud memo service;
@@ -661,23 +663,23 @@ Knomo is not:
 - an image manager;
 - a private database that locks your content away.
 
-Knomo is a local memo-first capture and review layer for Obsidian Markdown.
+Rnomo is a local memo-first capture and review layer for Obsidian Markdown.
 
 ---
 
 ## Differences from Other Tools
 
-### How is Knomo different from flomo?
+### How is Rnomo different from flomo?
 
-flomo is a standalone Memos product. Knomo is an Obsidian plugin.
+flomo is a standalone Memos product. Rnomo is an Obsidian plugin.
 
-Knomo is more suitable for users who want to keep fragmented notes in their own Vault while continuing to use Obsidian's tags, links, search, backlinks, Daily Notes, and Markdown workflow.
+Rnomo is more suitable for users who want to keep fragmented notes in their own Vault while continuing to use Obsidian's tags, links, search, backlinks, Daily Notes, and Markdown workflow.
 
-### How is Knomo different from Thino?
+### How is Rnomo different from Thino?
 
 Thino is a mature Obsidian Memos plugin.
 
-Knomo focuses more on:
+Rnomo focuses more on:
 
 - Daily Note integration;
 - monthly Markdown collection;
@@ -686,27 +688,27 @@ Knomo focuses more on:
 - lightweight card review;
 - low-friction personal capture.
 
-If you need a mature and feature-rich Memos plugin, Thino may be a better fit. If you want a lightweight memo entry that stays close to Daily Notes and local Markdown, Knomo may fit your workflow.
+If you need a mature and feature-rich Memos plugin, Thino may be a better fit. If you want a lightweight memo entry that stays close to Daily Notes and local Markdown, Rnomo may fit your workflow.
 
 ---
 
 ## FAQ
 
-### Will Knomo lock my data inside the plugin?
+### Will Rnomo lock my data inside the plugin?
 
 No. Core memo content is written to Markdown files. The index improves the experience, but Markdown remains the long-term trusted source.
 
 ### Do I have to enable Daily Notes?
 
-Yes. Knomo's main writing workflow is built around Obsidian's core Daily Notes plugin.
+Yes. Rnomo's main writing workflow is built around Obsidian's core Daily Notes plugin.
 
-### Will Knomo upload my notes?
+### Will Rnomo upload my notes?
 
-No. Knomo does not rely on external servers and does not actively upload your notes.
+No. Rnomo does not rely on external servers and does not actively upload your notes.
 
-### Does Knomo support mobile?
+### Does Rnomo support mobile?
 
-Yes. Mobile is one of Knomo's main optimization areas. Knomo includes a mobile composer, keyboard adaptation, mobile search, touch-friendly controls, safe-area handling, mobile sidebar behavior, and mobile-friendly card browsing.
+Yes. Mobile is one of Rnomo's main optimization areas. Rnomo includes a mobile composer, keyboard adaptation, mobile search, touch-friendly controls, safe-area handling, mobile sidebar behavior, and mobile-friendly card browsing.
 
 ### Why do my card flow and Markdown files look inconsistent?
 
@@ -715,13 +717,13 @@ The index may not have refreshed yet, or Markdown files may have been edited ext
 Try:
 
 1. checking the original Markdown file;
-2. refreshing Knomo;
+2. refreshing Rnomo;
 3. using repair / rebuild tools;
 4. opening an issue with reproduction steps if the problem persists.
 
 ### Can I edit Markdown files manually?
 
-Yes. Knomo is designed to keep content readable in Markdown. If you edit files manually, refresh or rebuild the index if the card flow does not update as expected.
+Yes. Rnomo is designed to keep content readable in Markdown. If you edit files manually, refresh or rebuild the index if the card flow does not update as expected.
 
 ---
 
@@ -767,13 +769,13 @@ When reporting mobile issues, please include device model, OS version, Obsidian 
 
 ## License
 
-### Knomo for Obsidian Desktop and Mobile
+### Rnomo for Obsidian Desktop and Mobile
 
-Starting with the Knomo 1.10.0 licensing change, Knomo's original material is licensed under **GNU GPL version 3 only (GPL-3.0-only), with the Knomo Obsidian Host Additional Permission**. Read [LICENSING.md](./LICENSING.md), the standard [GPLv3 text](./LICENSE), and the [host additional permission](./OBSIDIAN-EXCEPTION.txt) together.
+Starting with the Rnomo 1.10.0 licensing change, Rnomo's original material is licensed under **GNU GPL version 3 only (GPL-3.0-only), with the Rnomo Obsidian Host Additional Permission**. Read [LICENSING.md](./LICENSING.md), the standard [GPLv3 text](./LICENSE), and the [host additional permission](./OBSIDIAN-EXCEPTION.txt) together.
 
-You may use, modify, and commercially distribute Knomo under these terms. Distribution of covered forks or extracted code, styles, components, and utilities must comply with applicable GPL obligations, including Corresponding Source and required notices. The host permission permits the necessary combination with independently obtained Obsidian; it does not waive GPL obligations for Knomo or authorize distribution of Obsidian. The software is provided without warranty to the extent permitted by law.
+You may use, modify, and commercially distribute Rnomo under these terms. Distribution of covered forks or extracted code, styles, components, and utilities must comply with applicable GPL obligations, including Corresponding Source and required notices. The host permission permits the necessary combination with independently obtained Obsidian; it does not waive GPL obligations for Rnomo or authorize distribution of Obsidian. The software is provided without warranty to the extent permitted by law.
 
-Historical MIT grants remain valid: you may continue to use material previously supplied under MIT on those terms. The [historical MIT notice](./LICENSES/Knomo-historical-MIT.txt) is preserved; it does not grant MIT permission for new contributions. Third-party material retains its own licenses and [required notices](./THIRD-PARTY-NOTICES.txt). Your notes do not become GPL-covered merely by using Knomo.
+Historical MIT grants remain valid: you may continue to use material previously supplied under MIT on those terms. The [historical MIT notice](./LICENSES/Rnomo-historical-MIT.txt) is preserved; it does not grant MIT permission for new contributions. Third-party material retains its own licenses and [required notices](./THIRD-PARTY-NOTICES.txt). Your notes do not become GPL-covered merely by using Rnomo.
 
 The [brand policy](./BRANDING.md) separates code licensing from official identity. Forks and commercial use are allowed under the software license; do not imply official endorsement. A project link or [Buy me a coffee](https://www.buymeacoffee.com/banyanso) link is appreciated, not required. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the license of new contributions.
 

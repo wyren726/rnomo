@@ -28,7 +28,7 @@ import { Component, ItemView, Keymap, Notice, Platform, Scope, setIcon, TFile } 
 import type { HoverPopover, WorkspaceLeaf } from "obsidian";
 
 import { KNOMO_VIEW_DISPLAY_TEXT, KNOMO_VIEW_TYPE } from "../constants";
-import { KNOMO_LOGO_ICON, KNOMO_SEARCH_ICON } from "../icons";
+import { RNOMO_LOGO_ICON, KNOMO_SEARCH_ICON } from "../icons";
 import { t, getKnomoLocale } from "../i18n";
 import type { AttachmentService } from "../services/AttachmentService";
 import type { MemoCommandService } from "../services/MemoCommandService";
@@ -1180,7 +1180,7 @@ export class KnomoView extends ItemView {
 	}
 
 	getIcon(): string {
-		return KNOMO_LOGO_ICON;
+		return RNOMO_LOGO_ICON;
 	}
 
 	requestMobileNavbarSync(): void {

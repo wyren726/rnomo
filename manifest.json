@@ -1,10 +1,10 @@
 {
-	"id": "knomo-local",
-	"name": "Knomo Local",
-	"version": "1.14.8-dev.1",
+	"id": "rnomo",
+	"name": "Rnomo",
+	"version": "1.14.8-dev.2",
 	"minAppVersion": "1.11.0",
 	"description": "Capture local-first memos into daily notes and monthly archives.",
-	"author": "BanyanSo",
-	"authorUrl": "",
+	"author": "wyren726",
+	"authorUrl": "https://github.com/wyren726/rnomo",
 	"isDesktopOnly": false
 }

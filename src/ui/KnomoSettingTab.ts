@@ -105,9 +105,9 @@ export class KnomoSettingTab extends PluginSettingTab {
 
 	getSettingDefinitions(): SettingDefinitionItem[] {
 		return [{
-			name: "Knomo",
+			name: "Rnomo",
 			aliases: [
-				"Knomo", t("settings.capture.heading"), t("settings.presentation.heading"),
+				"Rnomo", t("settings.capture.heading"), t("settings.presentation.heading"),
 				t("settings.monthly.heading"), t("settings.files.heading"),
 				t("settings.dailyHeading.name"), t("settings.insertPosition.name"),
 				t("settings.timeFormat.name"), t("settings.timeBuoy.name"),

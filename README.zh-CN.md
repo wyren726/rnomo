@@ -1,12 +1,14 @@
-# Knomo
+# Rnomo
 
 [English](README.md) | 简体中文
 
 > Obsidian 里的本地优先 Memos 入口：快速记录，日记留痕，月度归集，卡片回看，移动端友好输入。
 
-Knomo 是一个为 Obsidian 打造的 memo-first 记录插件。它帮助你更快写下碎片想法，同时让内容继续保存在自己的 Vault 里，以普通 Markdown 文件的形式存在，离开插件也能阅读、编辑和迁移。
+> Rnomo 是基于原 Knomo 项目的独立维护开发分支。
 
-Knomo 的核心思路很简单：
+Rnomo 是一个为 Obsidian 打造的 memo-first 记录插件。它帮助你更快写下碎片想法，同时让内容继续保存在自己的 Vault 里，以普通 Markdown 文件的形式存在，离开插件也能阅读、编辑和迁移。
+
+Rnomo 的核心思路很简单：
 
 - 先快速记录，不必一开始就决定最终笔记结构；
 - 通过 Daily Notes 保留每条 memo 发生的日期上下文；
@@ -14,7 +16,7 @@ Knomo 的核心思路很简单：
 - 通过卡片、筛选、搜索、引用、图片、任务和统计，让写下的内容重新被看见和复用；
 - 坚持本地优先，不破坏原有 Markdown 工作流。
 
-Knomo 不试图取代 Obsidian 的文件、文件夹、标签、链接、反向链接或 Daily Notes。它只是给 Obsidian 的 Markdown 工作流增加一个更轻、更顺手的记录入口。
+Rnomo 不试图取代 Obsidian 的文件、文件夹、标签、链接、反向链接或 Daily Notes。它只是给 Obsidian 的 Markdown 工作流增加一个更轻、更顺手的记录入口。
 
 ---
 
@@ -35,17 +37,17 @@ Knomo 不试图取代 Obsidian 的文件、文件夹、标签、链接、反向�
 
 ---
 
-## 为什么需要 Knomo？
+## 为什么需要 Rnomo？
 
 Obsidian 很适合长期知识管理，但很多想法并不是以完整笔记的形态出现的。它们更常见的形态是碎片：阅读时的一句话、会议里的一个点子、一个待办、一张截图、一个链接、一句判断、一个感受，或者一个还没成形的连接。
 
 如果每个碎片都要先打开正确文件、找到正确标题、选择正确文件夹、判断最终结构，很多内容就不会被写下来。
 
-Knomo 给这些碎片一个低摩擦入口：
+Rnomo 给这些碎片一个低摩擦入口：
 
-1. **先记录**：打开 Knomo，写下 memo，保存。
+1. **先记录**：打开 Rnomo，写下 memo，保存。
 2. **保留日记上下文**：memo 自动写入当天 Daily Note。
-3. **按月归集**：Knomo 自动维护月度 Memos Markdown 文件。
+3. **按月归集**：Rnomo 自动维护月度 Memos Markdown 文件。
 4. **用卡片回看**：通过卡片流、筛选、搜索和统计重新浏览内容。
 5. **回到 Markdown**：每条 memo 仍然属于你的 Obsidian 本地 Markdown 工作流。
 
@@ -55,11 +57,11 @@ Knomo 给这些碎片一个低摩擦入口：
 
 ### Memo-first
 
-Knomo 把 memo 作为第一记录单元。你可以先捕捉想法，再在之后连接、打标签、搜索、引用、展开或移动到更大的笔记中。
+Rnomo 把 memo 作为第一记录单元。你可以先捕捉想法，再在之后连接、打标签、搜索、引用、展开或移动到更大的笔记中。
 
 ### Daily Note + Monthly Memos
 
-Knomo 的核心工作流由两层 Markdown 组成：
+Rnomo 的核心工作流由两层 Markdown 组成：
 
 - **Daily Note**：保留 memo 发生的日期和当天上下文；
 - **Monthly Memos 文件**：把 memo 归集成月度信息流，方便集中浏览和回看。
@@ -70,19 +72,19 @@ Monthly Memos 回答：**这个月我写下了什么？**
 
 ### Local-first
 
-memo 内容保存在你的 Obsidian Vault 中。Knomo 不要求账号，不依赖外部服务器，也不会主动上传你的笔记。
+memo 内容保存在你的 Obsidian Vault 中。Rnomo 不要求账号，不依赖外部服务器，也不会主动上传你的笔记。
 
 ### Markdown-friendly
 
-Knomo 尽量支持并保留常见的 Obsidian / Markdown 语法，包括标签、内部链接、Markdown 链接、URL、图片、列表、任务列表、块引用、引用块、标题和代码块。
+Rnomo 尽量支持并保留常见的 Obsidian / Markdown 语法，包括标签、内部链接、Markdown 链接、URL、图片、列表、任务列表、块引用、引用块、标题和代码块。
 
 ### Non-destructive
 
-Knomo 不会把你的 Daily Note 改造成插件私有数据库。它写入的是可读的 memo 形态 Markdown，并尽量保持原文可见、可编辑、可迁移。
+Rnomo 不会把你的 Daily Note 改造成插件私有数据库。它写入的是可读的 memo 形态 Markdown，并尽量保持原文可见、可编辑、可迁移。
 
 ### Mobile-friendly
 
-Knomo 不把 Obsidian 移动端当作桌面端的缩小窗口。输入框、键盘行为、触控区域、侧边栏、搜索和卡片浏览都会围绕手机上的真实记录场景优化。
+Rnomo 不把 Obsidian 移动端当作桌面端的缩小窗口。输入框、键盘行为、触控区域、侧边栏、搜索和卡片浏览都会围绕手机上的真实记录场景优化。
 
 ---
 
@@ -90,7 +92,7 @@ Knomo 不把 Obsidian 移动端当作桌面端的缩小窗口。输入框、键�
 
 ### 快速记录
 
-你可以直接在 Knomo 视图里写 memo，不需要先打开某个 Markdown 文件。
+你可以直接在 Rnomo 视图里写 memo，不需要先打开某个 Markdown 文件。
 
 适合记录：
 
@@ -106,9 +108,9 @@ Knomo 不把 Obsidian 移动端当作桌面端的缩小窗口。输入框、键�
 
 ### 快捷命令
 
-在 Obsidian 命令面板中搜索 Knomo，即可执行 **新建 Memo**、**随机重逢**、**往日漫游**、**时光浮标**、**记录统计** 和 **那年今日**。你也可以在 Obsidian 的 **快捷键** 设置中为它们绑定按键。
+在 Obsidian 命令面板中搜索 Rnomo，即可执行 **新建 Memo**、**随机重逢**、**往日漫游**、**时光浮标**、**记录统计** 和 **那年今日**。你也可以在 Obsidian 的 **快捷键** 设置中为它们绑定按键。
 
-命令会复用已打开的 Knomo 视图，必要时自动打开视图。**新建 Memo** 会保留当前草稿；使用 **时光浮标** 前需要先在 Knomo 设置中启用该功能。
+命令会复用已打开的 Rnomo 视图，必要时自动打开视图。**新建 Memo** 会保留当前草稿；使用 **时光浮标** 前需要先在 Rnomo 设置中启用该功能。
 
 ---
 
@@ -118,22 +120,22 @@ Composer 会展示 Markdown 格式，并在编辑时展开相关源码。你可�
 
 在 Obsidian 1.14 及以上版本，Composer 会识别 `==...==` 开头的 🔴、🟠、🟡、🟢、🔵、🟣，显示对应六色高亮。编辑时展开完整源码；取消高亮保留原始正文，包括 emoji。旧宿主保留普通高亮显示。卡片正文、输入及辅助文字优先沿用宿主字号，Obsidian 1.14 移动端可跟随系统文字缩放。
 
-在同一个打开的 Knomo 视图内，关闭并重新打开 Composer 会保留草稿。编辑已有 memo 时，会暂存新建草稿；保存或取消编辑后，恢复草稿正文、引用、选区和滚动位置。保存失败时也会保留编辑内容。
+在同一个打开的 Rnomo 视图内，关闭并重新打开 Composer 会保留草稿。编辑已有 memo 时，会暂存新建草稿；保存或取消编辑后，恢复草稿正文、引用、选区和滚动位置。保存失败时也会保留编辑内容。
 
-自 [1.12.7](release-notes/1.12.7.md) 起，关闭视图后重新打开 Knomo，或重启 Obsidian 后，可以恢复未完成的新建和编辑草稿，包括正文、引用、选区、滚动位置及已完成的图片附件。草稿只保存在当前设备，按 Vault 隔离，不随 Vault 跨设备同步。恢复草稿后，仍需保存到 Daily 才成为正式 Memo。
+自 [1.12.7](release-notes/1.12.7.md) 起，关闭视图后重新打开 Rnomo，或重启 Obsidian 后，可以恢复未完成的新建和编辑草稿，包括正文、引用、选区、滚动位置及已完成的图片附件。草稿只保存在当前设备，按 Vault 隔离，不随 Vault 跨设备同步。恢复草稿后，仍需保存到 Daily 才成为正式 Memo。
 
 恢复有以下边界：
 
 - 异常退出或系统强制结束时，最近尚未持久化的输入可能丢失；本地存储不可用、损坏或被清理也会影响恢复。若提示本地草稿保存失败，请保持视图打开或复制文字；仍可正常保存到 Daily。
 - 未完成的图片处理不会恢复。已完成的图片附件在恢复时会重新校验；附件缺失或链接目标变化时，请按提示核对或重新插入，草稿文字会保留。
 - 恢复的编辑目标已变化或不可用时，会保留草稿文字并暂停保存；请刷新列表，在目标 Memo 上重新选择“编辑”。
-- 如果提示 Daily 写入尚未确认，请先核对 Daily，再决定是否重试。Knomo 会保留待核对草稿，不会自动重复提交。
+- 如果提示 Daily 写入尚未确认，请先核对 Daily，再决定是否重试。Rnomo 会保留待核对草稿，不会自动重复提交。
 
 ---
 
 ### 写入 Daily Note
 
-Knomo 依赖 Obsidian 核心插件 **Daily Notes（日记）**。
+Rnomo 依赖 Obsidian 核心插件 **Daily Notes（日记）**。
 
 新 memo 会写入当天 Daily Note 中配置好的标题下。默认标题是：
 
@@ -150,18 +152,18 @@ Knomo 依赖 Obsidian 核心插件 **Daily Notes（日记）**。
 - 21:10:03 书里这段话值得之后再看 #reading
 ```
 
-你可以在 Knomo 设置中配置写入标题、插入位置和时间格式。
+你可以在 Rnomo 设置中配置写入标题、插入位置和时间格式。
 
 ---
 
 ### 月度 Memos 文件
 
-除了写入 Daily Note，Knomo 也会自动维护月度 Memos Markdown 文件。
+除了写入 Daily Note，Rnomo 也会自动维护月度 Memos Markdown 文件。
 
 默认结构示例：
 
 ```md
-# Knomo/Memos-2026-06.md
+# Rnomo/Memos-2026-06.md
 
 ## [[2026-06-21]]
 
@@ -179,7 +181,7 @@ Knomo 依赖 Obsidian 核心插件 **Daily Notes（日记）**。
 
 ### 卡片式浏览
 
-Knomo 用卡片流展示 memo，而不是要求你一直阅读原始 Markdown 信息流。
+Rnomo 用卡片流展示 memo，而不是要求你一直阅读原始 Markdown 信息流。
 
 卡片适合：
 
@@ -195,7 +197,7 @@ Knomo 用卡片流展示 memo，而不是要求你一直阅读原始 Markdown �
 
 ### 筛选与搜索
 
-Knomo 支持多种方式缩小 memo 范围：
+Rnomo 支持多种方式缩小 memo 范围：
 
 - 全部笔记；
 - **勾事记**：包含 Markdown 勾选项的 memo；
@@ -221,13 +223,13 @@ Knomo 支持多种方式缩小 memo 范围：
 
 搜索会高亮卡片当前可见正文中能可靠定位的命中文字。仅命中链接目标、图片路径或预览之外的内容时，结果卡片可能没有高亮。
 
-Knomo 使用可重建的本地 Catalog 完成历史查询、筛选和统计，并分页加载 memo 卡片。每台设备根据 Daily Notes 建立自己的 Catalog，无需同步索引本身。
+Rnomo 使用可重建的本地 Catalog 完成历史查询、筛选和统计，并分页加载 memo 卡片。每台设备根据 Daily Notes 建立自己的 Catalog，无需同步索引本身。
 
 ---
 
 ### 标签、链接与 Obsidian 友好 Markdown
 
-Knomo 会识别 memo 里的标签和链接。
+Rnomo 会识别 memo 里的标签和链接。
 
 ```md
 - 16:20:00 改进移动端 composer 的间距 #knomo #interaction
@@ -235,7 +237,7 @@ Knomo 会识别 memo 里的标签和链接。
 - 20:10:00 参考资料：https://obsidian.md
 ```
 
-Knomo 会保留原始 Markdown，而不是替换成插件私有格式。
+Rnomo 会保留原始 Markdown，而不是替换成插件私有格式。
 
 ---
 
@@ -250,7 +252,7 @@ Knomo 会保留原始 Markdown，而不是替换成插件私有格式。
 - 把分散在不同日期的碎片连接起来；
 - 保留原始 memo 的来源痕迹。
 
-引用使用 Obsidian 友好的链接或块引用形式，因此离开 Knomo 后仍然有意义。
+引用使用 Obsidian 友好的链接或块引用形式，因此离开 Rnomo 后仍然有意义。
 
 ---
 
@@ -258,9 +260,9 @@ Knomo 会保留原始 Markdown，而不是替换成插件私有格式。
 
 可以直接向 Composer 粘贴截图、剪贴板图片，也可以通过图片选择器插入。图片粘贴支持 PNG、JPEG、GIF 和 WebP，适用于剪贴板提供图片数据且不附带文本或 HTML 的情况。移动端剪贴板支持取决于系统和输入方式，仍可使用图片选择器。
 
-图片会按 Obsidian 的附件位置与链接格式设置保存到 Vault，并以 Markdown 嵌入链接插入草稿。Knomo 会保留可用的原始文件名、调整不安全名称，并避免覆盖已有附件。处理图片期间可以继续输入，处理完成后再发送 memo。取消插入或撤销嵌入链接不会删除已经保存到 Vault 的附件。
+图片会按 Obsidian 的附件位置与链接格式设置保存到 Vault，并以 Markdown 嵌入链接插入草稿。Rnomo 会保留可用的原始文件名、调整不安全名称，并避免覆盖已有附件。处理图片期间可以继续输入，处理完成后再发送 memo。取消插入或撤销嵌入链接不会删除已经保存到 Vault 的附件。
 
-Knomo 支持在 memo 卡片中显示轻量图片预览。
+Rnomo 支持在 memo 卡片中显示轻量图片预览。
 
 支持的场景包括：
 
@@ -272,13 +274,13 @@ Knomo 支持在 memo 卡片中显示轻量图片预览。
 
 双击图片后可以拖动查看细节。移动端支持双击和双指缩放；放大后的平移不会切换图片。再次双击恢复完整预览，也可以双指收拢缩小。加载失败时可以在预览中直接重试。
 
-Knomo 的目标不是做图片管理器，而是让带图片的 memo 也能在卡片流里清晰、轻量地浏览。
+Rnomo 的目标不是做图片管理器，而是让带图片的 memo 也能在卡片流里清晰、轻量地浏览。
 
 ---
 
 ### 任务列表与 checkbox
 
-Knomo 支持 memo 中的 Markdown 任务列表。
+Rnomo 支持 memo 中的 Markdown 任务列表。
 
 示例：
 
@@ -296,7 +298,7 @@ Knomo 支持 memo 中的 Markdown 任务列表。
 
 ### 记录统计
 
-Knomo 增加了记录统计视图，用来理解自己的记录习惯和回看节奏。
+Rnomo 增加了记录统计视图，用来理解自己的记录习惯和回看节奏。
 
 可以展示：
 
@@ -319,7 +321,7 @@ Knomo 增加了记录统计视图，用来理解自己的记录习惯和回看�
 
 ### 随机重逢与回顾
 
-Knomo 提供随机重逢、日期回顾等轻量回看入口。它们不依赖 AI，也不依赖外部服务，只是帮助旧碎片重新遇到现在的你。
+Rnomo 提供随机重逢、日期回顾等轻量回看入口。它们不依赖 AI，也不依赖外部服务，只是帮助旧碎片重新遇到现在的你。
 
 随机重逢每组最多展示 10 条合格 Memo，包括纯图片和纯链接记录。在当前视图会话内，优先选择最近三批之外的内容。稳定候选至少 20 条时，相邻两批完整结果不重叠；候选较少时只进行必要的重复。展示卡片不会标记已回看，成功打开或显式标记后才记录回看，并在接下来三个日历日内降低抽中权重。
 
@@ -341,13 +343,13 @@ Knomo 提供随机重逢、日期回顾等轻量回看入口。它们不依赖 A
 
 在 memo 中加入 `@YYYY-MM-DD`，就可以让它在指定日期重新浮现。你可以直接输入日期标记，也可以使用输入框中的日期选择器，并在时光浮标的“今日”“待浮现”“往日”视图中集中回看。
 
-日期标记会保留在 memo 的 Markdown 正文中。Knomo 只建立可删除、可重建的本地索引来加速查询；索引不会替代或改写 Daily Note 中的 memo 原文。
+日期标记会保留在 memo 的 Markdown 正文中。Rnomo 只建立可删除、可重建的本地索引来加速查询；索引不会替代或改写 Daily Note 中的 memo 原文。
 
 ---
 
 ### 回收站、恢复与修复
 
-Knomo 提供更安全的日常维护流程：
+Rnomo 提供更安全的日常维护流程：
 
 - 删除后的 memo 可以进入回收站；
 - 能恢复的 memo 可以尝试恢复；
@@ -361,7 +363,7 @@ Markdown 始终是长期可信来源。插件索引用于提升浏览、筛选�
 
 ### 桌面端响应式布局
 
-Knomo 根据自身分栏宽度适配布局，方便与其他笔记并排使用。宽度达到 780px 时使用桌面侧边栏布局，更窄时切换为紧凑标题栏与侧边栏抽屉，抽屉限制在所属分栏内。可以通过关闭按钮或 Escape 收起抽屉。
+Rnomo 根据自身分栏宽度适配布局，方便与其他笔记并排使用。宽度达到 780px 时使用桌面侧边栏布局，更窄时切换为紧凑标题栏与侧边栏抽屉，抽屉限制在所属分栏内。可以通过关闭按钮或 Escape 收起抽屉。
 
 调整分栏宽度时，会保留草稿、搜索状态以及侧边栏宽度和折叠偏好。
 
@@ -369,7 +371,7 @@ Knomo 根据自身分栏宽度适配布局，方便与其他笔记并排使用�
 
 ### 移动端输入体验
 
-Knomo 针对移动端做了专门优化：
+Rnomo 针对移动端做了专门优化：
 
 - 更适合触控的快速新建入口；
 - 面向手机输入的底部 composer；
@@ -381,13 +383,13 @@ Knomo 针对移动端做了专门优化：
 - 移动端友好的图片预览；
 - 适配安全区域和 Obsidian 移动端导航栏。
 
-Knomo 的移动端目标不是“能打开”，而是让快速记录在 Obsidian mobile 中也足够自然。
+Rnomo 的移动端目标不是“能打开”，而是让快速记录在 Obsidian mobile 中也足够自然。
 
 ---
 
 ### 主题兼容
 
-Knomo 尽量使用 Obsidian 主题变量，并对 Minimal 等社区主题做了兼容处理。
+Rnomo 尽量使用 Obsidian 主题变量，并对 Minimal 等社区主题做了兼容处理。
 
 如果你使用其他主题时遇到间距、颜色、对比度或移动端布局问题，欢迎反馈。
 
@@ -397,14 +399,14 @@ Knomo 尽量使用 Obsidian 主题变量，并对 Minimal 等社区主题做了�
 
 ### 从 Obsidian 社区插件市场安装
 
-打开 [Knomo 社区插件页面](https://community.obsidian.md/plugins/knomo)，点击 **Add to Obsidian**，然后在 Obsidian 中点击 **安装**并**启用**。
+打开 [Rnomo 社区插件页面](https://community.obsidian.md/plugins/knomo)，点击 **Add to Obsidian**，然后在 Obsidian 中点击 **安装**并**启用**。
 
 也可以从 Obsidian 设置中安装：
 
 1. 打开 Obsidian 设置；
 2. 进入 **第三方插件 / Community plugins**；
 3. 如有需要，关闭受限模式（Restricted Mode），启用第三方插件；
-4. 点击**浏览 / Browse**，搜索 `Knomo` 并打开插件页面；
+4. 点击**浏览 / Browse**，搜索 `Rnomo` 并打开插件页面；
 5. 安装并启用插件。
 
 ### 手动安装
@@ -423,8 +425,8 @@ Knomo 尽量使用 Obsidian 主题变量，并对 Minimal 等社区主题做了�
 
 3. 将三个文件放入该目录；
 4. 重启 Obsidian；
-5. 在 **第三方插件 / Community plugins** 中启用 Knomo；
-6. 使用命令面板运行 `Open Knomo`。
+5. 在 **第三方插件 / Community plugins** 中启用 Rnomo；
+6. 使用命令面板运行 `Open Rnomo`。
 
 ---
 
@@ -432,7 +434,7 @@ Knomo 尽量使用 Obsidian 主题变量，并对 Minimal 等社区主题做了�
 
 ### 1. 启用 Daily Notes
 
-Knomo 需要 Obsidian 核心插件 **Daily Notes（日记）**。
+Rnomo 需要 Obsidian 核心插件 **Daily Notes（日记）**。
 
 使用前请确认：
 
@@ -441,20 +443,20 @@ Knomo 需要 Obsidian 核心插件 **Daily Notes（日记）**。
 - 日期格式已配置；
 - Obsidian 可以正常创建 Daily Note 文件。
 
-### 2. 打开 Knomo
+### 2. 打开 Rnomo
 
-你可以通过以下方式打开 Knomo：
+你可以通过以下方式打开 Rnomo：
 
 - 点击左侧 Ribbon 图标；
-- 在命令面板运行 `Open Knomo`；
-- 将 Knomo 视图固定到工作区。
+- 在命令面板运行 `Open Rnomo`；
+- 将 Rnomo 视图固定到工作区。
 
 ### 3. 创建第一条 memo
 
 写下：
 
 ```text
-今天开始用 Knomo 记录碎片想法 #knomo
+今天开始用 Rnomo 记录碎片想法 #knomo
 ```
 
 保存后，这条 memo 会出现在卡片流中，并写入对应 Markdown 文件。
@@ -474,7 +476,7 @@ Knomo 需要 Obsidian 核心插件 **Daily Notes（日记）**。
 
 ## Obsidian URL 快捷指令
 
-可通过 Obsidian 原生 URL 从 iOS「快捷指令」或其他应用打开 Knomo。请先在目标 Vault 中启用 Knomo，并将下列示例 Vault ID 替换为自己的 ID：
+可通过 Obsidian 原生 URL 从 iOS「快捷指令」或其他应用打开 Rnomo。请先在目标 Vault 中启用 Rnomo，并将下列示例 Vault ID 替换为自己的 ID：
 
 ```text
 obsidian://knomo?vault=ef6ca3e3b524d22f&command=open-view
@@ -488,7 +490,7 @@ obsidian://knomo?vault=ef6ca3e3b524d22f&command=on-this-day
 
 | command | 行为 |
 | --- | --- |
-| `open-view` | 仅打开或切换到 Knomo，复用已有视图 |
+| `open-view` | 仅打开或切换到 Rnomo，复用已有视图 |
 | `new-memo` | 打开新建 Memo 输入界面，保留已有草稿 |
 | `random-revisit` | 随机重逢 |
 | `shuffle-day` | 往日漫游 |
@@ -496,17 +498,17 @@ obsidian://knomo?vault=ef6ca3e3b524d22f&command=on-this-day
 | `record-stats` | 记录统计 |
 | `on-this-day` | 那年今日 |
 
-在 iOS「快捷指令」中添加「URL」操作，填入所需链接，再添加「打开 URL」操作。`new-memo` 只打开输入界面，不会自动保存 Memo；所有命令均不支持通过 URL 传入 Memo 正文。缺失、空值或未知的 `command` 不执行功能，也不创建 Knomo 视图。
+在 iOS「快捷指令」中添加「URL」操作，填入所需链接，再添加「打开 URL」操作。`new-memo` 只打开输入界面，不会自动保存 Memo；所有命令均不支持通过 URL 传入 Memo 正文。缺失、空值或未知的 `command` 不执行功能，也不创建 Rnomo 视图。
 
 Obsidian 先选择目标 Vault，再分发自定义 action。`vault` 支持 Vault 名称或 ID；优先使用 ID，避免重命名或同名 Vault 带来的问题。在 Vault 切换器中打开目标 Vault 的上下文菜单，选择「复制 Vault ID」。ID 属于设备本地的 Vault 注册信息：不同设备应分别获取，移除并重新添加 Vault 后也应重新核对。参见 [Obsidian URI 官方说明](https://help.obsidian.md/uri)。
 
-名称含空格、中文时，请将参数值 URL 编码一次。例如 `工作 笔记` 对应 `obsidian://knomo?vault=%E5%B7%A5%E4%BD%9C%20%E7%AC%94%E8%AE%B0&command=open-view`。不传 `vault` 时，例如 `obsidian://knomo?command=new-memo`，在 Obsidian 实际打开的 Vault 中执行。Knomo 不另行选择 Vault、不跨 Vault 转发，也不会在目标插件不可用时回退到另一实例。请仅使用这里列出的参数；Obsidian 会在 Knomo 收到请求之前处理其自身的路由参数。
+名称含空格、中文时，请将参数值 URL 编码一次。例如 `工作 笔记` 对应 `obsidian://knomo?vault=%E5%B7%A5%E4%BD%9C%20%E7%AC%94%E8%AE%B0&command=open-view`。不传 `vault` 时，例如 `obsidian://knomo?command=new-memo`，在 Obsidian 实际打开的 Vault 中执行。Rnomo 不另行选择 Vault、不跨 Vault 转发，也不会在目标插件不可用时回退到另一实例。请仅使用这里列出的参数；Obsidian 会在 Rnomo 收到请求之前处理其自身的路由参数。
 
-实现使用官方 `registerObsidianProtocolHandler` API（自 Obsidian 0.11.0 提供），因此 `minAppVersion` 保持 1.11.0。公开回调 API 不承诺保留 `vault` 参数；本机 Obsidian Desktop 1.13.7 的实现检查确认，宿主先按名称或 ID 选库，再移除 `vault` 后分发。Knomo 因此复用原生路由，不将 ID 与 Vault 名称比较，也不读取私有 Vault 注册表。命令等待工作区布局恢复后，进入已有视图打开逻辑或 Quick Command Controller。
+实现使用官方 `registerObsidianProtocolHandler` API（自 Obsidian 0.11.0 提供），因此 `minAppVersion` 保持 1.11.0。公开回调 API 不承诺保留 `vault` 参数；本机 Obsidian Desktop 1.13.7 的实现检查确认，宿主先按名称或 ID 选库，再移除 `vault` 后分发。Rnomo 因此复用原生路由，不将 ID 与 Vault 名称比较，也不读取私有 Vault 注册表。命令等待工作区布局恢复后，进入已有视图打开逻辑或 Quick Command Controller。
 
 ## Markdown 格式
 
-Knomo 使用简单、可读、离开插件也能理解的 Markdown 格式。
+Rnomo 使用简单、可读、离开插件也能理解的 Markdown 格式。
 
 ### 单行 memo
 
@@ -567,7 +569,7 @@ Knomo 使用简单、可读、离开插件也能理解的 Markdown 格式。
 
 ## 设置概览
 
-Knomo 设置包括：
+Rnomo 设置包括：
 
 - Daily Note 写入标题；
 - 新 memo 插入位置；
@@ -584,31 +586,31 @@ Knomo 设置包括：
 
 ## 数据与隐私
 
-Knomo 的核心原则是：**数据属于你**。
+Rnomo 的核心原则是：**数据属于你**。
 
 - memo 内容保存在你的 Obsidian Vault 中；
 - Daily Notes 和月度 Memos 文件都是普通 Markdown 文件；
 - Markdown 文件可以直接阅读、备份、同步和迁移；
 - 插件索引用于提升浏览、筛选、统计和同步体验；
 - Daily Notes 是活动 memo 的事实来源，本地 Catalog 与月度文件可从中重建；
-- Knomo 不要求注册账号；
-- Knomo 不依赖外部服务器；
-- Knomo 不会主动上传你的笔记。
+- Rnomo 不要求注册账号；
+- Rnomo 不依赖外部服务器；
+- Rnomo 不会主动上传你的笔记。
 
 ---
 
 ## 数据安全说明
 
-Knomo 会写入 Markdown 文件。为了降低风险：
+Rnomo 会写入 Markdown 文件。为了降低风险：
 
 - 首次使用前请备份 Vault；
 - 确认 Obsidian Sync、Git 或其他同步工具状态正常；
-- 迁移旧版 Knomo 数据前请先备份；
+- 迁移旧版 Rnomo 数据前请先备份；
 - 如果卡片流与 Markdown 看起来不一致，优先检查原始 Markdown；
 - 如果索引过期，可以使用修复 / 重建工具；
 - 长期可信来源始终是 Markdown 文件。
 
-Knomo 的目标不是隐藏 Markdown，而是让 Markdown 更容易被快速记录、浏览和复用。
+Rnomo 的目标不是隐藏 Markdown，而是让 Markdown 更容易被快速记录、浏览和复用。
 
 ---
 
@@ -616,7 +618,7 @@ Knomo 的目标不是隐藏 Markdown，而是让 Markdown 更容易被快速记�
 
 ### 日常碎片记录
 
-把 Knomo 当作 Obsidian 里的快速输入框。先写下来，之后再整理。
+把 Rnomo 当作 Obsidian 里的快速输入框。先写下来，之后再整理。
 
 ### 阅读摘录
 
@@ -650,9 +652,9 @@ Knomo 的目标不是隐藏 Markdown，而是让 Markdown 更容易被快速记�
 
 ---
 
-## Knomo 不是什么
+## Rnomo 不是什么
 
-Knomo 不是：
+Rnomo 不是：
 
 - Obsidian 文件和文件夹系统的替代品；
 - 云端 memo 服务；
@@ -661,23 +663,23 @@ Knomo 不是：
 - 图片管理器；
 - 把内容锁住的私有数据库。
 
-Knomo 是 Obsidian Markdown 的本地 memo-first 记录与回看层。
+Rnomo 是 Obsidian Markdown 的本地 memo-first 记录与回看层。
 
 ---
 
 ## 与其他工具的区别
 
-### Knomo 和 flomo 有什么区别？
+### Rnomo 和 flomo 有什么区别？
 
-flomo 是独立的 Memos 产品。Knomo 是 Obsidian 插件。
+flomo 是独立的 Memos 产品。Rnomo 是 Obsidian 插件。
 
-Knomo 更适合希望把碎片记录保存在自己 Vault 中，并继续使用 Obsidian 标签、链接、搜索、反向链接、Daily Notes 和 Markdown 工作流的用户。
+Rnomo 更适合希望把碎片记录保存在自己 Vault 中，并继续使用 Obsidian 标签、链接、搜索、反向链接、Daily Notes 和 Markdown 工作流的用户。
 
-### Knomo 和 Thino 有什么区别？
+### Rnomo 和 Thino 有什么区别？
 
 Thino 是成熟的 Obsidian Memos 插件。
 
-Knomo 更聚焦：
+Rnomo 更聚焦：
 
 - Daily Note 联动；
 - 月度 Markdown 自动归集；
@@ -686,27 +688,27 @@ Knomo 更聚焦：
 - 轻量卡片回看；
 - 低打扰的个人记录流程。
 
-如果你需要成熟、完整、功能丰富的 Memos 插件，Thino 可能更适合。如果你想要一个贴近日记和本地 Markdown 的轻量记录入口，可以试试 Knomo。
+如果你需要成熟、完整、功能丰富的 Memos 插件，Thino 可能更适合。如果你想要一个贴近日记和本地 Markdown 的轻量记录入口，可以试试 Rnomo。
 
 ---
 
 ## 常见问题
 
-### Knomo 会不会把数据锁在插件里？
+### Rnomo 会不会把数据锁在插件里？
 
 不会。核心 memo 内容会写入 Markdown 文件。索引用于提升体验，但 Markdown 才是长期可信来源。
 
 ### 是否必须启用 Daily Notes？
 
-是的。Knomo 的主要写入流程围绕 Obsidian 核心插件 Daily Notes 展开。
+是的。Rnomo 的主要写入流程围绕 Obsidian 核心插件 Daily Notes 展开。
 
-### Knomo 会上传我的笔记吗？
+### Rnomo 会上传我的笔记吗？
 
-不会。Knomo 不依赖外部服务器，也不会主动上传你的笔记。
+不会。Rnomo 不依赖外部服务器，也不会主动上传你的笔记。
 
 ### 是否支持移动端？
 
-支持。移动端是 Knomo 的重点优化方向之一。Knomo 包括移动端 composer、键盘适配、移动搜索、触控友好控件、安全区域处理、移动端侧边栏和卡片浏览等优化。
+支持。移动端是 Rnomo 的重点优化方向之一。Rnomo 包括移动端 composer、键盘适配、移动搜索、触控友好控件、安全区域处理、移动端侧边栏和卡片浏览等优化。
 
 ### 为什么卡片流和 Markdown 文件看起来不一致？
 
@@ -715,13 +717,13 @@ Knomo 更聚焦：
 可以尝试：
 
 1. 检查原始 Markdown 文件；
-2. 刷新 Knomo；
+2. 刷新 Rnomo；
 3. 使用修复 / 重建工具；
 4. 如果问题仍然存在，提交带复现步骤的 issue。
 
 ### 可以手动编辑 Markdown 文件吗？
 
-可以。Knomo 的设计目标就是让内容保持 Markdown 可读。如果你手动编辑文件后卡片流没有及时更新，可以刷新或重建索引。
+可以。Rnomo 的设计目标就是让内容保持 Markdown 可读。如果你手动编辑文件后卡片流没有及时更新，可以刷新或重建索引。
 
 ---
 
@@ -767,13 +769,13 @@ persistence、migration、identity、数据安全及跨服务语义修改须先�
 
 ## License
 
-### Knomo 适用于 Obsidian 桌面端和移动端
+### Rnomo 适用于 Obsidian 桌面端和移动端
 
-从 Knomo 1.10.0 的本次许可变更起，Knomo 原创内容采用 **GNU GPL 第 3 版且仅限该版（GPL-3.0-only），附 Knomo Obsidian 宿主附加许可**。请一起阅读 [许可说明](./LICENSING.md)、[GPLv3 标准全文](./LICENSE)和[宿主附加许可](./OBSIDIAN-EXCEPTION.txt)。
+从 Rnomo 1.10.0 的本次许可变更起，Rnomo 原创内容采用 **GNU GPL 第 3 版且仅限该版（GPL-3.0-only），附 Rnomo Obsidian 宿主附加许可**。请一起阅读 [许可说明](./LICENSING.md)、[GPLv3 标准全文](./LICENSE)和[宿主附加许可](./OBSIDIAN-EXCEPTION.txt)。
 
-你可以依照这些条款使用、修改和商业分发 Knomo。分发受覆盖的 fork，或抽取的代码、样式、组件和工具函数时，应履行适用的 GPL 义务，包括对应源码及必要声明。宿主附加许可允许与独立取得的 Obsidian 进行必要结合，不免除 Knomo 的 GPL 义务，也不授权分发 Obsidian。在法律允许的范围内，本软件不提供担保。
+你可以依照这些条款使用、修改和商业分发 Rnomo。分发受覆盖的 fork，或抽取的代码、样式、组件和工具函数时，应履行适用的 GPL 义务，包括对应源码及必要声明。宿主附加许可允许与独立取得的 Obsidian 进行必要结合，不免除 Rnomo 的 GPL 义务，也不授权分发 Obsidian。在法律允许的范围内，本软件不提供担保。
 
-历史 MIT 授权继续有效，之前按 MIT 提供的内容仍可按原条款使用。[历史 MIT 声明](./LICENSES/Knomo-historical-MIT.txt)完整保留，但不为新贡献授予 MIT 许可。第三方内容保留各自许可和[必要声明](./THIRD-PARTY-NOTICES.txt)。你的笔记不会仅因使用 Knomo 而变为 GPL 内容。
+历史 MIT 授权继续有效，之前按 MIT 提供的内容仍可按原条款使用。[历史 MIT 声明](./LICENSES/Rnomo-historical-MIT.txt)完整保留，但不为新贡献授予 MIT 许可。第三方内容保留各自许可和[必要声明](./THIRD-PARTY-NOTICES.txt)。你的笔记不会仅因使用 Rnomo 而变为 GPL 内容。
 
 [品牌政策](./BRANDING.md)将代码许可与官方身份分开。软件许可允许 fork 和商业使用，但不得造成官方背书的误解。欢迎保留原项目或 [Buy me a coffee](https://www.buymeacoffee.com/banyanso) 链接，这不是许可条件。新贡献的许可见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
 

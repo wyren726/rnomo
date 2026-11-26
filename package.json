@@ -1,5 +1,5 @@
 {
-	"name": "knomo",
+	"name": "rnomo",
 	"version": "1.14.8",
 	"description": "Capture local-first memos into daily notes and monthly archives.",
 	"main": "main.js",
